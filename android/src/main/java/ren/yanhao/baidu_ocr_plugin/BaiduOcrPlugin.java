@@ -1,38 +1,62 @@
 package ren.yanhao.baidu_ocr_plugin;
 
+import android.content.Context;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
+import io.flutter.Log;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
-import io.flutter.plugin.common.MethodCall;
-import io.flutter.plugin.common.MethodChannel;
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
-import io.flutter.plugin.common.MethodChannel.Result;
 
-/** BaiduOcrPlugin */
-public class BaiduOcrPlugin implements FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
-  private MethodChannel channel;
 
-  @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "baidu_ocr_plugin");
-    channel.setMethodCallHandler(this);
-  }
+/**
+ * BaiduOcrPlugin
+ */
+public class BaiduOcrPlugin implements FlutterPlugin, Pigeon.FlutterCallNativeApi {
+    private static final String TAG = "BaiduOcrPlugin";
 
-  @Override
-  public void onMethodCall(@NonNull MethodCall call, @NonNull Result result) {
-    if (call.method.equals("getPlatformVersion")) {
-      result.success("Android " + android.os.Build.VERSION.RELEASE);
-    } else {
-      result.notImplemented();
+    private Pigeon.NativeCallFlutterApi nativeApi;
+    private Context context;
+
+
+    @Override
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+        Log.d(TAG, "onAttachedToEngine");
+        context = binding.getApplicationContext();
+
+        Pigeon.FlutterCallNativeApi.setup(binding.getBinaryMessenger(), this);
+        nativeApi = new Pigeon.NativeCallFlutterApi(binding.getBinaryMessenger());
     }
-  }
 
-  @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    channel.setMethodCallHandler(null);
-  }
+    @Override
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        Log.d(TAG, "onDetachedFromEngine");
+        Pigeon.FlutterCallNativeApi.setup(binding.getBinaryMessenger(), null);
+    }
+
+    // flutter call native
+    @Override
+    public Pigeon.SearchReply search(Pigeon.SearchRequest request) {
+        Log.d(TAG, "navtive 被 FLT 端调用了。入参:" + request.getQuery());
+        Pigeon.SearchReply reply = new Pigeon.SearchReply();
+        reply.setResult(request.getQuery() + "--nativeResult");
+
+        //region native call flutter
+        Pigeon.SearchRequest requestArg = new Pigeon.SearchRequest();
+        requestArg.setQuery("nativeRequestArg");
+        nativeApi.query(requestArg, new Pigeon.NativeCallFlutterApi.Reply<Pigeon.SearchReply>() {
+            @Override
+            public void reply(Pigeon.SearchReply reply) {
+                // flutter reply
+                if (reply != null) {
+                    Log.d(TAG, "navtive 收到了 FLT 端的回复。reply:" + reply.getResult());
+                    Toast.makeText(context, reply.getResult(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        //endregion
+
+        // native reply flutter
+        return reply;
+    }
 }
