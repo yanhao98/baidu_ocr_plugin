@@ -98,6 +98,8 @@ public class Pigeon {
   public interface FlutterCallNativeApi {
     void replyErrorFromNative(Result<Void> result);
     SearchReply search(SearchRequest request);
+    void startAsyncSearch(Result<SearchReply> result);
+    void endAsyncSearch();
 
     /** The codec used by FlutterCallNativeApi. */
     static MessageCodec<Object> getCodec() {
@@ -149,6 +151,54 @@ public class Pigeon {
               }
               SearchReply output = api.search(requestArg);
               wrapped.put("result", output);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterCallNativeApi.startAsyncSearch", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Result<SearchReply> resultCallback = new Result<SearchReply>() {
+                public void success(SearchReply result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.startAsyncSearch(resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterCallNativeApi.endAsyncSearch", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.endAsyncSearch();
+              wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));

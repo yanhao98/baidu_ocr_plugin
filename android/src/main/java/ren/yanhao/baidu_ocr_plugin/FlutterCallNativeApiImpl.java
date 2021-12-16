@@ -45,6 +45,20 @@ public class FlutterCallNativeApiImpl implements Pigeon.FlutterCallNativeApi {
     }
 
     @Override
+    public void startAsyncSearch(Pigeon.Result<Pigeon.SearchReply> result) {
+        Log.d(TAG, "startAsyncSearch");
+        BaiduOcrPlugin.result = result;
+    }
+
+    @Override
+    public void endAsyncSearch() {
+        Log.d(TAG, "endAsyncSearch");
+        Pigeon.SearchReply r = new Pigeon.SearchReply();
+        r.setResult("result");
+        BaiduOcrPlugin.result.success(r);
+    }
+
+    @Override
     public void replyErrorFromNative(Pigeon.Result<Void> result) {
         result.error(new PigeonException("错误内容"));
     }

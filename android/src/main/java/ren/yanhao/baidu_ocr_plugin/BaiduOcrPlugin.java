@@ -16,6 +16,8 @@ import io.flutter.plugin.common.BinaryMessenger;
 public class BaiduOcrPlugin implements FlutterPlugin {
     private static final String TAG = "BaiduOcrPlugin";
 
+    public static Pigeon.Result<Pigeon.SearchReply> result;
+
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         Log.d(TAG, "onAttachedToEngine");

@@ -15,6 +15,11 @@ abstract class FlutterCallNativeApi {
   void replyErrorFromNative();
 
   SearchReply search(SearchRequest request);
+
+  @async
+  SearchReply startAsyncSearch();
+
+  void endAsyncSearch();
 }
 
 /// native call flutter

@@ -52,6 +52,22 @@ class MyApp extends StatelessWidget {
                 },
                 child: const Text('testReplyErrorFromNative'),
               ),
+              const Divider(),
+              ElevatedButton(
+                onPressed: () async {
+                  FlutterCallNativeApi api = FlutterCallNativeApi();
+                  SearchReply searchReply = await api.startAsyncSearch();
+                  log('异步结束, result: ${searchReply.result}');
+                },
+                child: const Text('1.异步开始'),
+              ),
+              ElevatedButton(
+                onPressed: () async {
+                  FlutterCallNativeApi api = FlutterCallNativeApi();
+                  api.endAsyncSearch();
+                },
+                child: const Text('2.异步结束'),
+              ),
             ],
           ),
         ),
