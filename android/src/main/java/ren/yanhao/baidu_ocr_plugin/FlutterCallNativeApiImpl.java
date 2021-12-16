@@ -46,6 +46,6 @@ public class FlutterCallNativeApiImpl implements Pigeon.FlutterCallNativeApi {
 
     @Override
     public void replyErrorFromNative(Pigeon.Result<Void> result) {
-        result.error(new Exception("错误内容1"));
+        result.error(new PigeonException("错误内容"));
     }
 }

@@ -28,13 +28,9 @@ public class BaiduOcrPlugin implements FlutterPlugin {
         Log.d(TAG, "onDetachedFromEngine");
     }
 
-    private void setup(
-            BinaryMessenger binaryMessenger,
-            Context context) {
+    private void setup(BinaryMessenger binaryMessenger, Context context) {
         Pigeon.NativeCallFlutterApi nativeCallFlutterApi = new Pigeon.NativeCallFlutterApi(binaryMessenger);
-
-        Pigeon.FlutterCallNativeApi flutterCallNativeApi =
-                new FlutterCallNativeApiImpl(nativeCallFlutterApi, context);
+        Pigeon.FlutterCallNativeApi flutterCallNativeApi = new FlutterCallNativeApiImpl(nativeCallFlutterApi, context);
 
         Pigeon.FlutterCallNativeApi.setup(binaryMessenger, flutterCallNativeApi);
     }
