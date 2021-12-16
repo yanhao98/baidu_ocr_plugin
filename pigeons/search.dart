@@ -1,8 +1,19 @@
 import 'package:pigeon/pigeon.dart';
 
+class SearchReply {
+  String? result;
+}
+
+class SearchRequest {
+  String? query;
+}
+
 /// flutter call native
 @HostApi()
 abstract class FlutterCallNativeApi {
+  @async
+  void replyErrorFromNative();
+
   SearchReply search(SearchRequest request);
 }
 
@@ -10,12 +21,4 @@ abstract class FlutterCallNativeApi {
 @FlutterApi()
 abstract class NativeCallFlutterApi {
   SearchReply query(SearchRequest request);
-}
-
-class SearchReply {
-  String? result;
-}
-
-class SearchRequest {
-  String? query;
 }

@@ -18,7 +18,6 @@ public class BaiduOcrPlugin implements FlutterPlugin, Pigeon.FlutterCallNativeAp
     private Pigeon.NativeCallFlutterApi nativeApi;
     private Context context;
 
-
     @Override
     public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
         Log.d(TAG, "onAttachedToEngine");
@@ -58,5 +57,10 @@ public class BaiduOcrPlugin implements FlutterPlugin, Pigeon.FlutterCallNativeAp
 
         // native reply flutter
         return reply;
+    }
+
+    @Override
+    public void replyErrorFromNative(Pigeon.Result<Void> result) {
+        result.error(new Exception("错误内容1"));
     }
 }

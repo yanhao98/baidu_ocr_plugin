@@ -56,6 +56,11 @@ public class Pigeon {
       return fromMapResult;
     }
   }
+
+  public interface Result<T> {
+    void success(T result);
+    void error(Throwable error);
+  }
   private static class FlutterCallNativeApiCodec extends StandardMessageCodec {
     public static final FlutterCallNativeApiCodec INSTANCE = new FlutterCallNativeApiCodec();
     private FlutterCallNativeApiCodec() {}
@@ -91,6 +96,7 @@ public class Pigeon {
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface FlutterCallNativeApi {
+    void replyErrorFromNative(Result<Void> result);
     SearchReply search(SearchRequest request);
 
     /** The codec used by FlutterCallNativeApi. */
@@ -100,6 +106,35 @@ public class Pigeon {
 
     /** Sets up an instance of `FlutterCallNativeApi` to handle messages through the `binaryMessenger`. */
     static void setup(BinaryMessenger binaryMessenger, FlutterCallNativeApi api) {
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterCallNativeApi.replyErrorFromNative", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Result<Void> resultCallback = new Result<Void>() {
+                public void success(Void result) {
+                  wrapped.put("result", null);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.replyErrorFromNative(resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
       {
         BasicMessageChannel<Object> channel =
             new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterCallNativeApi.search", getCodec());

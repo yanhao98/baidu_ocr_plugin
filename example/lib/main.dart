@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:baidu_ocr_plugin/pigeon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   // Always call this if the main method is asynchronous
@@ -24,6 +25,12 @@ class MyApp extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               ElevatedButton(
+                onPressed: () {
+                  NativeCallFlutterApi.setup(NativeCallFlutterApiImpl());
+                },
+                child: const Text('NativeCallFlutterApi.setup()'),
+              ),
+              ElevatedButton(
                 onPressed: () async {
                   FlutterCallNativeApi api = FlutterCallNativeApi();
                   SearchRequest request = SearchRequest()..query = DateTime.now().toString();
@@ -33,10 +40,17 @@ class MyApp extends StatelessWidget {
                 child: const Text('调用 native'),
               ),
               ElevatedButton(
-                onPressed: () {
-                  NativeCallFlutterApi.setup(NativeCallFlutterApiImpl());
+                onPressed: () async {
+                  FlutterCallNativeApi api = FlutterCallNativeApi();
+                  try {
+                    await api.replyErrorFromNative();
+                  } on PlatformException catch (e) {
+                    // code: Exception,
+                    // message: java.lang.Exception: 错误内容1
+                    log('code: ${e.code}, message: ${e.message}');
+                  }
                 },
-                child: const Text('NativeCallFlutterApi.setup()'),
+                child: const Text('testReplyErrorFromNative'),
               ),
             ],
           ),
