@@ -8,7 +8,15 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:4.1.3'
+    }
+}
+
+
+String moudleDir = ""
+rootProject.allprojects { project ->
+    if (project.properties.get("identityPath").toString() == ":baidu_ocr_plugin") {
+        moudleDir = project.properties.get("projectDir").toString()
     }
 }
 
@@ -16,6 +24,7 @@ rootProject.allprojects {
     repositories {
         google()
         mavenCentral()
+        maven { url "$moudleDir/libs" }
     }
 }
 
@@ -32,4 +41,8 @@ android {
     defaultConfig {
         minSdkVersion 16
     }
+}
+
+dependencies {
+    implementation "com.baidu.ocr:sdk:1.4.7"
 }
