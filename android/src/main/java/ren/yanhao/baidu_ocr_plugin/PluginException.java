@@ -4,11 +4,11 @@ import androidx.annotation.NonNull;
 
 import java.io.IOException;
 
-public class PigeonException extends Throwable {
+public class PluginException extends Throwable {
     private final String message;
 
 
-    public PigeonException(
+    public PluginException(
             String message) {
         this.message = message;
     }

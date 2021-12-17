@@ -1,13 +1,28 @@
-
 import 'dart:async';
 
+import 'package:baidu_ocr_plugin/src/pigeon.dart';
 import 'package:flutter/services.dart';
 
-class BaiduOcrPlugin {
-  static const MethodChannel _channel = MethodChannel('baidu_ocr_plugin');
+class BaiduOcrPluginError implements Exception {
+  final String message;
+  BaiduOcrPluginError({
+    required this.message,
+  });
+}
 
-  static Future<String?> get platformVersion async {
-    final String? version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
+class BaiduOcrPlugin {
+  static final OcrHostApi _api = OcrHostApi();
+
+  static Future<void> initWithAkSk({
+    required String ak,
+    required String sk,
+  }) async {
+    try {
+      await _api.initWithAkSk(InitWithAkSkRequestData()
+        ..ak = ak
+        ..sk = sk);
+    } on PlatformException catch (e) {
+      throw BaiduOcrPluginError(message: e.message!);
+    }
   }
 }

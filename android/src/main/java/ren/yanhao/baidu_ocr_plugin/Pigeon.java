@@ -20,39 +20,27 @@ import java.util.HashMap;
 public class Pigeon {
 
   /** Generated class from Pigeon that represents data sent in messages. */
-  public static class SearchReply {
-    private String result;
-    public String getResult() { return result; }
-    public void setResult(String setterArg) { this.result = setterArg; }
+  public static class InitWithAkSkRequestData {
+    private String ak;
+    public String getAk() { return ak; }
+    public void setAk(String setterArg) { this.ak = setterArg; }
+
+    private String sk;
+    public String getSk() { return sk; }
+    public void setSk(String setterArg) { this.sk = setterArg; }
 
     Map<String, Object> toMap() {
       Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("result", result);
+      toMapResult.put("ak", ak);
+      toMapResult.put("sk", sk);
       return toMapResult;
     }
-    static SearchReply fromMap(Map<String, Object> map) {
-      SearchReply fromMapResult = new SearchReply();
-      Object result = map.get("result");
-      fromMapResult.result = (String)result;
-      return fromMapResult;
-    }
-  }
-
-  /** Generated class from Pigeon that represents data sent in messages. */
-  public static class SearchRequest {
-    private String query;
-    public String getQuery() { return query; }
-    public void setQuery(String setterArg) { this.query = setterArg; }
-
-    Map<String, Object> toMap() {
-      Map<String, Object> toMapResult = new HashMap<>();
-      toMapResult.put("query", query);
-      return toMapResult;
-    }
-    static SearchRequest fromMap(Map<String, Object> map) {
-      SearchRequest fromMapResult = new SearchRequest();
-      Object query = map.get("query");
-      fromMapResult.query = (String)query;
+    static InitWithAkSkRequestData fromMap(Map<String, Object> map) {
+      InitWithAkSkRequestData fromMapResult = new InitWithAkSkRequestData();
+      Object ak = map.get("ak");
+      fromMapResult.ak = (String)ak;
+      Object sk = map.get("sk");
+      fromMapResult.sk = (String)sk;
       return fromMapResult;
     }
   }
@@ -61,17 +49,14 @@ public class Pigeon {
     void success(T result);
     void error(Throwable error);
   }
-  private static class FlutterCallNativeApiCodec extends StandardMessageCodec {
-    public static final FlutterCallNativeApiCodec INSTANCE = new FlutterCallNativeApiCodec();
-    private FlutterCallNativeApiCodec() {}
+  private static class OcrHostApiCodec extends StandardMessageCodec {
+    public static final OcrHostApiCodec INSTANCE = new OcrHostApiCodec();
+    private OcrHostApiCodec() {}
     @Override
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
-          return SearchReply.fromMap((Map<String, Object>) readValue(buffer));
-        
-        case (byte)129:         
-          return SearchRequest.fromMap((Map<String, Object>) readValue(buffer));
+          return InitWithAkSkRequestData.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
           return super.readValueOfType(type, buffer);
@@ -80,13 +65,9 @@ public class Pigeon {
     }
     @Override
     protected void writeValue(ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof SearchReply) {
+      if (value instanceof InitWithAkSkRequestData) {
         stream.write(128);
-        writeValue(stream, ((SearchReply) value).toMap());
-      } else 
-      if (value instanceof SearchRequest) {
-        stream.write(129);
-        writeValue(stream, ((SearchRequest) value).toMap());
+        writeValue(stream, ((InitWithAkSkRequestData) value).toMap());
       } else 
 {
         super.writeValue(stream, value);
@@ -95,26 +76,28 @@ public class Pigeon {
   }
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
-  public interface FlutterCallNativeApi {
-    void replyErrorFromNative(Result<Void> result);
-    SearchReply search(SearchRequest request);
-    void startAsyncSearch(Result<SearchReply> result);
-    void endAsyncSearch();
+  public interface OcrHostApi {
+    void initWithAkSk(InitWithAkSkRequestData request, Result<Void> result);
 
-    /** The codec used by FlutterCallNativeApi. */
+    /** The codec used by OcrHostApi. */
     static MessageCodec<Object> getCodec() {
-      return FlutterCallNativeApiCodec.INSTANCE;
+      return OcrHostApiCodec.INSTANCE;
     }
 
-    /** Sets up an instance of `FlutterCallNativeApi` to handle messages through the `binaryMessenger`. */
-    static void setup(BinaryMessenger binaryMessenger, FlutterCallNativeApi api) {
+    /** Sets up an instance of `OcrHostApi` to handle messages through the `binaryMessenger`. */
+    static void setup(BinaryMessenger binaryMessenger, OcrHostApi api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterCallNativeApi.replyErrorFromNative", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.initWithAkSk", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
             try {
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              InitWithAkSkRequestData requestArg = (InitWithAkSkRequestData)args.get(0);
+              if (requestArg == null) {
+                throw new NullPointerException("requestArg unexpectedly null.");
+              }
               Result<Void> resultCallback = new Result<Void>() {
                 public void success(Void result) {
                   wrapped.put("result", null);
@@ -126,7 +109,7 @@ public class Pigeon {
                 }
               };
 
-              api.replyErrorFromNative(resultCallback);
+              api.initWithAkSk(requestArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));
@@ -137,134 +120,6 @@ public class Pigeon {
           channel.setMessageHandler(null);
         }
       }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterCallNativeApi.search", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              ArrayList<Object> args = (ArrayList<Object>)message;
-              SearchRequest requestArg = (SearchRequest)args.get(0);
-              if (requestArg == null) {
-                throw new NullPointerException("requestArg unexpectedly null.");
-              }
-              SearchReply output = api.search(requestArg);
-              wrapped.put("result", output);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterCallNativeApi.startAsyncSearch", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              Result<SearchReply> resultCallback = new Result<SearchReply>() {
-                public void success(SearchReply result) {
-                  wrapped.put("result", result);
-                  reply.reply(wrapped);
-                }
-                public void error(Throwable error) {
-                  wrapped.put("error", wrapError(error));
-                  reply.reply(wrapped);
-                }
-              };
-
-              api.startAsyncSearch(resultCallback);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-              reply.reply(wrapped);
-            }
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.FlutterCallNativeApi.endAsyncSearch", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              api.endAsyncSearch();
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-    }
-  }
-  private static class NativeCallFlutterApiCodec extends StandardMessageCodec {
-    public static final NativeCallFlutterApiCodec INSTANCE = new NativeCallFlutterApiCodec();
-    private NativeCallFlutterApiCodec() {}
-    @Override
-    protected Object readValueOfType(byte type, ByteBuffer buffer) {
-      switch (type) {
-        case (byte)128:         
-          return SearchReply.fromMap((Map<String, Object>) readValue(buffer));
-        
-        case (byte)129:         
-          return SearchRequest.fromMap((Map<String, Object>) readValue(buffer));
-        
-        default:        
-          return super.readValueOfType(type, buffer);
-        
-      }
-    }
-    @Override
-    protected void writeValue(ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof SearchReply) {
-        stream.write(128);
-        writeValue(stream, ((SearchReply) value).toMap());
-      } else 
-      if (value instanceof SearchRequest) {
-        stream.write(129);
-        writeValue(stream, ((SearchRequest) value).toMap());
-      } else 
-{
-        super.writeValue(stream, value);
-      }
-    }
-  }
-
-  /** Generated class from Pigeon that represents Flutter messages that can be called from Java.*/
-  public static class NativeCallFlutterApi {
-    private final BinaryMessenger binaryMessenger;
-    public NativeCallFlutterApi(BinaryMessenger argBinaryMessenger){
-      this.binaryMessenger = argBinaryMessenger;
-    }
-    public interface Reply<T> {
-      void reply(T reply);
-    }
-    static MessageCodec<Object> getCodec() {
-      return NativeCallFlutterApiCodec.INSTANCE;
-    }
-
-    public void query(SearchRequest requestArg, Reply<SearchReply> callback) {
-      BasicMessageChannel<Object> channel =
-          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.NativeCallFlutterApi.query", getCodec());
-      channel.send(new ArrayList<Object>(Arrays.asList(requestArg)), channelReply -> {
-        @SuppressWarnings("ConstantConditions")
-        SearchReply output = (SearchReply)channelReply;
-        callback.reply(output);
-      });
     }
   }
   private static Map<String, Object> wrapError(Throwable exception) {

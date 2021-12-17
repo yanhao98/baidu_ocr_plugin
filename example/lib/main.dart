@@ -1,8 +1,5 @@
-import 'dart:developer';
-
-import 'package:baidu_ocr_plugin/pigeon.dart';
+import 'package:baidu_ocr_plugin/baidu_ocr_plugin.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 void main() {
   // Always call this if the main method is asynchronous
@@ -20,68 +17,51 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: const Text('baidu_ocr_plugin'),
         ),
-        body: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              ElevatedButton(
-                onPressed: () {
-                  NativeCallFlutterApi.setup(NativeCallFlutterApiImpl());
-                },
-                child: const Text('NativeCallFlutterApi.setup()'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  FlutterCallNativeApi api = FlutterCallNativeApi();
-                  SearchRequest request = SearchRequest()..query = DateTime.now().toString();
-                  SearchReply reply = await api.search(request);
-                  log('native返回数据: ${reply.result}');
-                },
-                child: const Text('调用 native'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  FlutterCallNativeApi api = FlutterCallNativeApi();
-                  try {
-                    await api.replyErrorFromNative();
-                  } on PlatformException catch (e) {
-                    // code: Exception,
-                    // message: java.lang.Exception: 错误内容1
-                    log('code: ${e.code}, message: ${e.message}');
-                  }
-                },
-                child: const Text('testReplyErrorFromNative'),
-              ),
-              const Divider(),
-              ElevatedButton(
-                onPressed: () async {
-                  FlutterCallNativeApi api = FlutterCallNativeApi();
-                  SearchReply searchReply = await api.startAsyncSearch();
-                  log('异步结束, result: ${searchReply.result}');
-                },
-                child: const Text('1.异步开始'),
-              ),
-              ElevatedButton(
-                onPressed: () async {
-                  FlutterCallNativeApi api = FlutterCallNativeApi();
-                  api.endAsyncSearch();
-                },
-                child: const Text('2.异步结束'),
-              ),
-            ],
-          ),
-        ),
+        body: Builder(builder: (context) {
+          return Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                ElevatedButton(
+                  onPressed: () async {
+                    try {
+                      await BaiduOcrPlugin.initWithAkSk(
+                        ak: 'gyNpPgRMqKiCOWffodQDmpAT',
+                        sk: 'c8amR3DEfrqB4ONfc5gS2sumjBl75aQO',
+                      );
+                      _showAlert(context, '初始化成功');
+                    } on BaiduOcrPluginError catch (e) {
+                      _showAlert(context, '初始化失败', e.message);
+                    }
+                  },
+                  child: const Text('初始化SDK'),
+                ),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
-}
 
-class NativeCallFlutterApiImpl extends NativeCallFlutterApi {
-  @override
-  SearchReply query(SearchRequest request) {
-    log("FLT被原生调用了。");
-    SearchReply reply = SearchReply();
-    reply.result = request.query! + "-flutterResult:" + DateTime.now().toString();
-    return reply;
+  void _showAlert(BuildContext context, String title, [String? content]) {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: content != null ? Text(content) : null,
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('确定'),
+            )
+          ],
+        );
+      },
+    );
   }
 }
