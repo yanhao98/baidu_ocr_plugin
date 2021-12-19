@@ -3,17 +3,6 @@
  */
 package com.baidu.ocr.ui.camera;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import com.baidu.idcardquality.IDcardQualityProcess;
-
-import ren.yanhao.baidu_ocr_plugin.BaiduOcrPlugin;
-import ren.yanhao.baidu_ocr_plugin.R;
-import com.baidu.ocr.ui.crop.CropView;
-import com.baidu.ocr.ui.crop.FrameOverlayView;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -28,12 +17,24 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
 import android.view.Surface;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+
+import com.baidu.idcardquality.IDcardQualityProcess;
+import com.baidu.ocr.ui.crop.CropView;
+import com.baidu.ocr.ui.crop.FrameOverlayView;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import ren.yanhao.baidu_ocr_plugin.BaiduOcrPlugin;
+import ren.yanhao.baidu_ocr_plugin.R;
 
 public class CameraActivity extends Activity {
 
@@ -503,9 +504,9 @@ public class CameraActivity extends Activity {
      *
      */
     private void doClear() {
+        BaiduOcrPlugin.log("doClear, isNativeEnable: " + isNativeEnable + ", isNativeManual: " + isNativeManual);
         CameraThreadPool.cancelAutoFocusTimer();
         if (isNativeEnable && !isNativeManual) {
-            BaiduOcrPlugin.log("doClear");
             IDcardQualityProcess.getInstance().releaseModel();
         }
     }

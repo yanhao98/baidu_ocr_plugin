@@ -40,6 +40,16 @@ class BaiduOcrPlugin {
     }
   }
 
+  /// 初始化本地质量控制模型
+  void initCameraNative() {
+    _hostApi.initCameraNative();
+  }
+
+  /// 释放本地质量控制模型
+  void releaseCameraNative() {
+    _hostApi.releaseCameraNative();
+  }
+
   /// 身份证正面(本地质量控制)
   void recognizeIdCardFrontNative(RecognizeCallbackHandler<IdCardResult> cb) {
     _recognizeFlutterApi.callbackHandler = RecognizeCallbackHandler(

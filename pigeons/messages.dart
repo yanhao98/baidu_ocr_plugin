@@ -15,6 +15,12 @@ abstract class OcrHostApi {
 
   /// 身份证反面(本地质量控制)
   void recognizeIdCardBackNative();
+
+  /// 初始化本地质量控制模型
+  void initCameraNative();
+
+  /// 释放本地质量控制模型
+  void releaseCameraNative();
 }
 
 @FlutterApi()

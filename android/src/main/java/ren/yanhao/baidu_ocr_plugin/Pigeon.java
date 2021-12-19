@@ -80,6 +80,8 @@ public class Pigeon {
     void initWithAkSk(InitWithAkSkRequestData request, Result<Void> result);
     void recognizeIdCardFrontNative();
     void recognizeIdCardBackNative();
+    void initCameraNative();
+    void releaseCameraNative();
 
     /** The codec used by OcrHostApi. */
     static MessageCodec<Object> getCodec() {
@@ -149,6 +151,44 @@ public class Pigeon {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               api.recognizeIdCardBackNative();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.initCameraNative", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.initCameraNative();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.releaseCameraNative", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.releaseCameraNative();
               wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
