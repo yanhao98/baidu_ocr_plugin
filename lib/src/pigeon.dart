@@ -84,4 +84,108 @@ class OcrHostApi {
       return;
     }
   }
+
+  Future<void> recognizeIdCardFrontNative() async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.OcrHostApi.recognizeIdCardFrontNative', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(null) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+        details: null,
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else {
+      return;
+    }
+  }
+
+  Future<void> recognizeIdCardBackNative() async {
+    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+        'dev.flutter.pigeon.OcrHostApi.recognizeIdCardBackNative', codec, binaryMessenger: _binaryMessenger);
+    final Map<Object?, Object?>? replyMap =
+        await channel.send(null) as Map<Object?, Object?>?;
+    if (replyMap == null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+        details: null,
+      );
+    } else if (replyMap['error'] != null) {
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
+      throw PlatformException(
+        code: (error['code'] as String?)!,
+        message: error['message'] as String?,
+        details: error['details'],
+      );
+    } else {
+      return;
+    }
+  }
+}
+
+class _RecognizeListenerFlutterApiCodec extends StandardMessageCodec {
+  const _RecognizeListenerFlutterApiCodec();
+}
+abstract class RecognizeListenerFlutterApi {
+  static const MessageCodec<Object?> codec = _RecognizeListenerFlutterApiCodec();
+
+  void onReceivedResult(String result);
+  void onReceivedError(String description);
+  void onReceivedCancel();
+  static void setup(RecognizeListenerFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult', codec, binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final String? arg_result = (args[0] as String?);
+          assert(arg_result != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult was null, expected non-null String.');
+          api.onReceivedResult(arg_result!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError', codec, binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final String? arg_description = (args[0] as String?);
+          assert(arg_description != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError was null, expected non-null String.');
+          api.onReceivedError(arg_description!);
+          return;
+        });
+      }
+    }
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedCancel', codec, binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          // ignore message
+          api.onReceivedCancel();
+          return;
+        });
+      }
+    }
+  }
 }

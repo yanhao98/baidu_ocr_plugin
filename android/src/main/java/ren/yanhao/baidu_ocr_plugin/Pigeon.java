@@ -78,6 +78,8 @@ public class Pigeon {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface OcrHostApi {
     void initWithAkSk(InitWithAkSkRequestData request, Result<Void> result);
+    void recognizeIdCardFrontNative();
+    void recognizeIdCardBackNative();
 
     /** The codec used by OcrHostApi. */
     static MessageCodec<Object> getCodec() {
@@ -120,6 +122,84 @@ public class Pigeon {
           channel.setMessageHandler(null);
         }
       }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeIdCardFrontNative", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeIdCardFrontNative();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeIdCardBackNative", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeIdCardBackNative();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+    }
+  }
+  private static class RecognizeListenerFlutterApiCodec extends StandardMessageCodec {
+    public static final RecognizeListenerFlutterApiCodec INSTANCE = new RecognizeListenerFlutterApiCodec();
+    private RecognizeListenerFlutterApiCodec() {}
+  }
+
+  /** Generated class from Pigeon that represents Flutter messages that can be called from Java.*/
+  public static class RecognizeListenerFlutterApi {
+    private final BinaryMessenger binaryMessenger;
+    public RecognizeListenerFlutterApi(BinaryMessenger argBinaryMessenger){
+      this.binaryMessenger = argBinaryMessenger;
+    }
+    public interface Reply<T> {
+      void reply(T reply);
+    }
+    static MessageCodec<Object> getCodec() {
+      return RecognizeListenerFlutterApiCodec.INSTANCE;
+    }
+
+    public void onReceivedResult(String resultArg, Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult", getCodec());
+      channel.send(new ArrayList<Object>(Arrays.asList(resultArg)), channelReply -> {
+        callback.reply(null);
+      });
+    }
+    public void onReceivedError(String descriptionArg, Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError", getCodec());
+      channel.send(new ArrayList<Object>(Arrays.asList(descriptionArg)), channelReply -> {
+        callback.reply(null);
+      });
+    }
+    public void onReceivedCancel(Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedCancel", getCodec());
+      channel.send(null, channelReply -> {
+        callback.reply(null);
+      });
     }
   }
   private static Map<String, Object> wrapError(Throwable exception) {
