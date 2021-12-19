@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.baidu.idcardquality.IDcardQualityProcess;
+
+import ren.yanhao.baidu_ocr_plugin.BaiduOcrPlugin;
 import ren.yanhao.baidu_ocr_plugin.R;
 import com.baidu.ocr.ui.crop.CropView;
 import com.baidu.ocr.ui.crop.FrameOverlayView;
@@ -200,6 +202,7 @@ public class CameraActivity extends Activity {
     }
 
     private void initNative(final String token) {
+        BaiduOcrPlugin.log("initNative");
         CameraNativeHelper.init(CameraActivity.this, token,
                 new CameraNativeHelper.CameraNativeInitCallback() {
             @Override
@@ -426,7 +429,7 @@ public class CameraActivity extends Activity {
         }
         return result;
     }
-    
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -502,6 +505,7 @@ public class CameraActivity extends Activity {
     private void doClear() {
         CameraThreadPool.cancelAutoFocusTimer();
         if (isNativeEnable && !isNativeManual) {
+            BaiduOcrPlugin.log("doClear");
             IDcardQualityProcess.getInstance().releaseModel();
         }
     }

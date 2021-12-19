@@ -18,6 +18,7 @@ public class RecognizeService {
 
   interface ServiceListener {
     void onResult(String jsonResult);
+
     void onError(String message);
   }
 

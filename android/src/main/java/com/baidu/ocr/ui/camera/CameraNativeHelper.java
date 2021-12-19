@@ -7,6 +7,8 @@ import android.content.Context;
 
 import com.baidu.idcardquality.IDcardQualityProcess;
 
+import ren.yanhao.baidu_ocr_plugin.BaiduOcrPlugin;
+
 /**
  * Created by ruanshimin on 2018/1/23.
  */
@@ -30,12 +32,14 @@ public class CameraNativeHelper {
                 int status;
                 // 加载本地so失败, 异常返回getloadSoException
                 if (IDcardQualityProcess.getLoadSoException() != null) {
+                    BaiduOcrPlugin.log("IDcardQualityProcess.getLoadSoException() != null");
                     status = CameraView.NATIVE_SOLOAD_FAIL;
                     cb.onError(status, IDcardQualityProcess.getLoadSoException());
                     return;
                 }
                 // 授权状态
                 int authStatus = IDcardQualityProcess.init(token);
+                BaiduOcrPlugin.log("authStatus: " + authStatus);
                 if (authStatus != 0) {
                     cb.onError(CameraView.NATIVE_AUTH_FAIL, null);
                     return;
@@ -45,6 +49,7 @@ public class CameraNativeHelper {
                 int initModelStatus = IDcardQualityProcess.getInstance()
                         .idcardQualityInit(ctx.getAssets(),
                                 "models");
+                BaiduOcrPlugin.log("initModelStatus: " + initModelStatus);
 
                 if (initModelStatus != 0) {
                     cb.onError(CameraView.NATIVE_INIT_FAIL, null);

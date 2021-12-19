@@ -15,6 +15,7 @@ import com.baidu.ocr.ui.camera.CameraView;
 public class OcrHostApiImpl implements Pigeon.OcrHostApi {
   private final Context context;
   private Activity activity;
+  private boolean hasCameraNativeInitialized = false;
 
   public OcrHostApiImpl(Context context) {
     this.context = context;
@@ -31,6 +32,10 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
         new OnResultListener<AccessToken>() {
           @Override
           public void onResult(AccessToken accessToken) {
+            if (!hasCameraNativeInitialized) {
+              initNative();
+              hasCameraNativeInitialized = true;
+            }
             result.success(null);
           }
 
@@ -59,18 +64,23 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     // 请手动使用CameraNativeHelper初始化和释放模型
     // 推荐这样做，可以避免一些activity切换导致的不必要的异常
 
-    // 手动化本地质量控制模型,释放代码在 ActivityResultDelegate
-    this.initNative();
+    // 手动初始化本地质量控制模型
+    // this.initNative();
 
     Intent intent = new Intent(activity, CameraActivity.class);
     intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
     intent.putExtra(CameraActivity.KEY_NATIVE_ENABLE, true);
     intent.putExtra(CameraActivity.KEY_NATIVE_MANUAL, true);
     intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, activityContentType);
+
+    // intent.putExtra(CameraActivity.KEY_NATIVE_TOKEN, OCR.getInstance(context).getLicense());
+
     activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_CAMERA);
   }
 
   private void initNative() {
+    BaiduOcrPlugin.log("initNative");
+    BaiduOcrPlugin.log("OCR.getInstance(context).getLicense(): " + OCR.getInstance(context).getLicense());
     CameraNativeHelper.init(
         context,
         OCR.getInstance(context).getLicense(),
