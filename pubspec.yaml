@@ -1,5 +1,6 @@
 name: baidu_ocr_plugin
-description: A new flutter plugin project.
+description: 百度文字识别 OCR
+repository: https://github.com/yanhao98/baidu_ocr_plugin
 version: 0.0.1
 
 environment:
