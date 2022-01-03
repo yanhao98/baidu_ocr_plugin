@@ -25,3 +25,5 @@ flutter:
       android:
         package: ren.yanhao.baidu_ocr_plugin
         pluginClass: BaiduOcrPlugin
+      ios:
+        pluginClass: BaiduOcrPlugin
