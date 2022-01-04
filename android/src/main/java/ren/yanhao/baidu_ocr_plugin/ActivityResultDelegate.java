@@ -11,13 +11,13 @@ import io.flutter.plugin.common.PluginRegistry;
 
 public class ActivityResultDelegate implements PluginRegistry.ActivityResultListener {
   private final Context context;
-  private final Pigeon.RecognizeListenerFlutterApi recognizeListenerFlutterApi;
+  private final Pigeon.RecognizeListenerFlutterApi flutterApi;
 
   public ActivityResultDelegate(
       Pigeon.RecognizeListenerFlutterApi recognizeListenerFlutterApi,
       Context context) {
     this.context = context;
-    this.recognizeListenerFlutterApi = recognizeListenerFlutterApi;
+    this.flutterApi = recognizeListenerFlutterApi;
   }
 
   @Override
@@ -28,10 +28,10 @@ public class ActivityResultDelegate implements PluginRegistry.ActivityResultList
     // CameraNativeHelper.release();
     if (requestCode == PluginDefine.REQUEST_CODE_CAMERA) {
 
-      if (resultCode == Activity.RESULT_CANCELED) {
-        recognizeListenerFlutterApi.onReceivedCancel(reply -> {
-        });
-      }
+//      if (resultCode == Activity.RESULT_CANCELED) {
+//        flutterApi.onReceivedCancel(reply -> {
+//        });
+//      }
 
       if (resultCode == Activity.RESULT_OK) {
         if (data != null) {
@@ -44,19 +44,20 @@ public class ActivityResultDelegate implements PluginRegistry.ActivityResultList
             idCardSide = IDCardParams.ID_CARD_SIDE_BACK;
           }
 
+          flutterApi.onReceivedStart(reply -> {});
           RecognizeService.recognizeIDCard(idCardSide, context, filePath,
               new RecognizeService.ServiceListener() {
                 @Override
                 public void onResult(String jsonResult) {
                   BaiduOcrPlugin.log("onResult回调给FLT: " + jsonResult);
-                  recognizeListenerFlutterApi.onReceivedResult(jsonResult, reply -> {
+                  flutterApi.onReceivedResult(jsonResult, reply -> {
                   });
                 }
 
                 @Override
                 public void onError(String message) {
                   BaiduOcrPlugin.log("onResult回调给FLT: " + message);
-                  recognizeListenerFlutterApi.onReceivedError(message, reply -> {
+                  flutterApi.onReceivedError(message, reply -> {
                   });
                 }
               });
