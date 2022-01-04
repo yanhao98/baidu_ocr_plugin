@@ -184,10 +184,23 @@ class _RecognizeListenerFlutterApiCodec extends StandardMessageCodec {
 abstract class RecognizeListenerFlutterApi {
   static const MessageCodec<Object?> codec = _RecognizeListenerFlutterApiCodec();
 
+  void onReceivedStart();
   void onReceivedResult(String result);
   void onReceivedError(String description);
-  void onReceivedCancel();
   static void setup(RecognizeListenerFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart', codec, binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          // ignore message
+          api.onReceivedStart();
+          return;
+        });
+      }
+    }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
           'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult', codec, binaryMessenger: binaryMessenger);
@@ -216,19 +229,6 @@ abstract class RecognizeListenerFlutterApi {
           final String? arg_description = (args[0] as String?);
           assert(arg_description != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError was null, expected non-null String.');
           api.onReceivedError(arg_description!);
-          return;
-        });
-      }
-    }
-    {
-      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedCancel', codec, binaryMessenger: binaryMessenger);
-      if (api == null) {
-        channel.setMessageHandler(null);
-      } else {
-        channel.setMessageHandler((Object? message) async {
-          // ignore message
-          api.onReceivedCancel();
           return;
         });
       }

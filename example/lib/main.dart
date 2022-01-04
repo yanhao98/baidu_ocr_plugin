@@ -83,50 +83,53 @@ class _HomeState extends State<Home> {
   }
 
   void _recognizeIdCardBackNative(BuildContext context) {
-    {
-      BaiduOcrPlugin.instance.recognizeIdCardBackNative(
-        RecognizeCallbackHandler(
-          onResult: (result) => EasyLoading.dismiss().then((_) => _alertText(
+    BaiduOcrPlugin.instance.recognizeIdCardBackNative(
+      RecognizeCallbackHandler(
+        onStart: () => EasyLoading.show(status: '正在识别...', maskType: EasyLoadingMaskType.black),
+        onResult: (result) => EasyLoading.dismiss().then(
+          (_) => _alertText(
               context,
               '反面扫描结果',
               '${result.back.issueAuthority}\n'
                   '${result.back.signDate}\n'
-                  '${result.back.expiryDate}\n')),
-          onError: (description) => EasyLoading.dismiss().then((_) => _alertText(context, '错误', description)),
-          onCancel: () => EasyLoading.dismiss().then((_) => _alertText(context, 'onCancel')),
+                  '${result.back.expiryDate}\n'),
         ),
-      );
-      EasyLoading.show(status: '反面扫描...', maskType: EasyLoadingMaskType.black);
-    }
+        onError: (description) => EasyLoading.dismiss().then(
+          (_) => _alertText(context, '反面扫描错误', description),
+        ),
+      ),
+    );
   }
 
   void _recognizeIdCardFrontNative(BuildContext context) async {
-    {
-      BaiduOcrPlugin.instance.recognizeIdCardFrontNative(
-        RecognizeCallbackHandler(
-          onResult: (result) => EasyLoading.dismiss().then((_) => _alertText(
-              context,
-              '正面扫描结果',
-              '${result.front.name}\n'
-                  '${result.front.idNumber}\n'
-                  '${result.front.gender}\n'
-                  '${result.front.ethnic}\n'
-                  '${result.front.birthday}\n'
-                  '${result.front.address}\n')),
-          onError: (description) => EasyLoading.dismiss().then((_) => _alertText(context, '错误', description)),
-          onCancel: () => EasyLoading.dismiss().then((_) => _alertText(context, 'onCancel')),
+    BaiduOcrPlugin.instance.recognizeIdCardFrontNative(
+      RecognizeCallbackHandler(
+        onStart: () => EasyLoading.show(status: '正面识别...', maskType: EasyLoadingMaskType.black),
+        onResult: (result) => EasyLoading.dismiss().then((_) => _alertText(
+            context,
+            '正面扫描结果',
+            '${result.front.name}\n'
+                '${result.front.idNumber}\n'
+                '${result.front.gender}\n'
+                '${result.front.ethnic}\n'
+                '${result.front.birthday}\n'
+                '${result.front.address}\n')),
+        onError: (description) => EasyLoading.dismiss().then(
+          (_) => _alertText(context, '正面扫描错误', description),
         ),
-      );
-      EasyLoading.show(status: '正面扫描...', maskType: EasyLoadingMaskType.black);
-    }
+      ),
+    );
   }
 
   void _initWithAkSk() {
+    EasyLoading.show(status: '_initWithAkSk', maskType: EasyLoadingMaskType.black);
+
     BaiduOcrPlugin.instance //
         .initWithAkSk(ak, sk)
-        .then((_) => EasyLoading.showInfo('init success'))
-        .onError<BaiduOcrPluginError>((error, stackTrace) => EasyLoading //
-            .showError(error.message));
+        .then((_) => EasyLoading.dismiss().then((_) => EasyLoading.showInfo('init success')))
+        .onError<BaiduOcrPluginError>(
+          (error, stackTrace) => EasyLoading.dismiss().then((_) => _alertText(context, '初始化错误', error.message)),
+        );
   }
 
   void _alertText(BuildContext context, String title, [String? content]) {

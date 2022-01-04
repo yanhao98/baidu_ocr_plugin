@@ -1,6 +1,7 @@
 import 'pigeon.dart';
 import 'recognize_callback_handler.dart';
 
+/// native端调用flutter端的实现。
 class RecognizeFlutterApiImpl extends RecognizeListenerFlutterApi {
   RecognizeCallbackHandler<String>? callbackHandler;
 
@@ -15,7 +16,7 @@ class RecognizeFlutterApiImpl extends RecognizeListenerFlutterApi {
   }
 
   @override
-  void onReceivedCancel() {
-    callbackHandler?.onCancel.call();
+  void onReceivedStart() {
+    callbackHandler?.onStart.call();
   }
 }

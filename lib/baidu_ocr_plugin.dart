@@ -53,9 +53,9 @@ class BaiduOcrPlugin {
   /// 身份证正面(本地质量控制)
   void recognizeIdCardFrontNative(RecognizeCallbackHandler<IdCardResult> cb) {
     _recognizeFlutterApi.callbackHandler = RecognizeCallbackHandler(
+      onStart: cb.onStart,
       onResult: (result) => cb.onResult.call(IdCardResult.fromJson(result)),
       onError: cb.onError,
-      onCancel: cb.onCancel,
     );
 
     _hostApi.recognizeIdCardFrontNative();
@@ -64,9 +64,11 @@ class BaiduOcrPlugin {
   /// 身份证反面(本地质量控制)
   void recognizeIdCardBackNative(RecognizeCallbackHandler<IdCardResult> cb) {
     _recognizeFlutterApi.callbackHandler = RecognizeCallbackHandler(
-      onResult: (result) => cb.onResult.call(IdCardResult.fromJson(result)),
+      onStart: cb.onStart,
+      onResult: (result) {
+        cb.onResult.call(IdCardResult.fromJson(result));
+      },
       onError: cb.onError,
-      onCancel: cb.onCancel,
     );
 
     _hostApi.recognizeIdCardBackNative();

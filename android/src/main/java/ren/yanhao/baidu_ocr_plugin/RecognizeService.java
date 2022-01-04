@@ -30,7 +30,7 @@ public class RecognizeService {
     // 设置方向检测
     param.setDetectDirection(true);
     // 设置图像参数压缩质量0-100, 越大图像质量越好但是请求时间越长。 不设置则默认值为20
-    param.setImageQuality(100);
+    param.setImageQuality(99);
 
     OCR.getInstance(context).recognizeIDCard(param, new OnResultListener<IDCardResult>() {
       @Override

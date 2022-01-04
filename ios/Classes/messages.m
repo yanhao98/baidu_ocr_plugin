@@ -237,6 +237,16 @@ NSObject<FlutterMessageCodec> *RecognizeListenerFlutterApiGetCodec() {
   return self;
 }
 
+- (void)onReceivedStartWithCompletion:(void(^)(NSError *_Nullable))completion {
+  FlutterBasicMessageChannel *channel =
+    [FlutterBasicMessageChannel
+      messageChannelWithName:@"dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart"
+      binaryMessenger:self.binaryMessenger
+      codec:RecognizeListenerFlutterApiGetCodec()];
+  [channel sendMessage:nil reply:^(id reply) {
+    completion(nil);
+  }];
+}
 - (void)onReceivedResultResult:(NSString *)arg_result completion:(void(^)(NSError *_Nullable))completion {
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
@@ -254,16 +264,6 @@ NSObject<FlutterMessageCodec> *RecognizeListenerFlutterApiGetCodec() {
       binaryMessenger:self.binaryMessenger
       codec:RecognizeListenerFlutterApiGetCodec()];
   [channel sendMessage:@[arg_description] reply:^(id reply) {
-    completion(nil);
-  }];
-}
-- (void)onReceivedCancelWithCompletion:(void(^)(NSError *_Nullable))completion {
-  FlutterBasicMessageChannel *channel =
-    [FlutterBasicMessageChannel
-      messageChannelWithName:@"dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedCancel"
-      binaryMessenger:self.binaryMessenger
-      codec:RecognizeListenerFlutterApiGetCodec()];
-  [channel sendMessage:nil reply:^(id reply) {
     completion(nil);
   }];
 }

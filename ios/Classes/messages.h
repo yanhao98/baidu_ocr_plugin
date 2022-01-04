@@ -33,8 +33,8 @@ NSObject<FlutterMessageCodec> *RecognizeListenerFlutterApiGetCodec(void);
 
 @interface RecognizeListenerFlutterApi : NSObject
 - (instancetype)initWithBinaryMessenger:(id<FlutterBinaryMessenger>)binaryMessenger;
+- (void)onReceivedStartWithCompletion:(void(^)(NSError *_Nullable))completion;
 - (void)onReceivedResultResult:(NSString *)result completion:(void(^)(NSError *_Nullable))completion;
 - (void)onReceivedErrorDescription:(NSString *)description completion:(void(^)(NSError *_Nullable))completion;
-- (void)onReceivedCancelWithCompletion:(void(^)(NSError *_Nullable))completion;
 @end
 NS_ASSUME_NONNULL_END

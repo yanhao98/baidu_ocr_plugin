@@ -220,6 +220,13 @@ public class Pigeon {
       return RecognizeListenerFlutterApiCodec.INSTANCE;
     }
 
+    public void onReceivedStart(Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart", getCodec());
+      channel.send(null, channelReply -> {
+        callback.reply(null);
+      });
+    }
     public void onReceivedResult(String resultArg, Reply<Void> callback) {
       BasicMessageChannel<Object> channel =
           new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult", getCodec());
@@ -231,13 +238,6 @@ public class Pigeon {
       BasicMessageChannel<Object> channel =
           new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError", getCodec());
       channel.send(new ArrayList<Object>(Arrays.asList(descriptionArg)), channelReply -> {
-        callback.reply(null);
-      });
-    }
-    public void onReceivedCancel(Reply<Void> callback) {
-      BasicMessageChannel<Object> channel =
-          new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedCancel", getCodec());
-      channel.send(null, channelReply -> {
         callback.reply(null);
       });
     }
