@@ -1,2 +1,2 @@
 #!/bin/sh
-flutter create -t plugin --platforms ios .
+flutter create --template=plugin --platforms=android,ios -i objc -a java .
