@@ -19,7 +19,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler/ios"
 
 SPEC CHECKSUMS:
-  baidu_ocr_plugin: 177bd59d91bfc267f0faa7aad5dc263c785455a1
+  baidu_ocr_plugin: 1533bb269597e7ef2f5d849e944be82d20453e73
   Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
   permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
 

@@ -108,7 +108,6 @@
 
 - (void)releaseCameraNativeWithError:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
     NSLog(@"releaseCameraNativeWithError");
-    [[AipOcrService shardService] authWithAK:<#(NSString *)#> andSK:<#(NSString *)#>];
 }
 
 + (NSString*)dictionaryToJson:(NSDictionary *)dic{
