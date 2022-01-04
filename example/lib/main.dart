@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-const ak = 'gyNpPgRMqKiCOWffodQDmpAT';
-const sk = 'c8amR3DEfrqB4ONfc5gS2sumjBl75aQO';
+const ak = 'LrWkpucBSIKHErkFLWl71Pji';
+const sk = 'YnRX31Nz3g5aKUFPtv6A6oYvFFWhgRd6';
 void main() {
   // Always call this if the main method is asynchronous
   WidgetsFlutterBinding.ensureInitialized();
@@ -126,7 +126,7 @@ class _HomeState extends State<Home> {
         .initWithAkSk(ak, sk)
         .then((_) => EasyLoading.showInfo('init success'))
         .onError<BaiduOcrPluginError>((error, stackTrace) => EasyLoading //
-            .showError('init fail: ${error.message}'));
+            .showError(error.message));
   }
 
   void _alertText(BuildContext context, String title, [String? content]) {
