@@ -108,10 +108,10 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     Intent intent = new Intent(activity, CameraActivity.class);
     intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
     intent.putExtra(CameraActivity.KEY_NATIVE_ENABLE, true);
-    intent.putExtra(CameraActivity.KEY_NATIVE_MANUAL, true);
+    intent.putExtra(CameraActivity.KEY_NATIVE_MANUAL, false);
     intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, activityContentType);
 
-    // intent.putExtra(CameraActivity.KEY_NATIVE_TOKEN, OCR.getInstance(context).getLicense());
+    intent.putExtra(CameraActivity.KEY_NATIVE_TOKEN, OCR.getInstance(context).getLicense());
 
     activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_CAMERA);
   }

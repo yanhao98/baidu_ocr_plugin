@@ -36,10 +36,10 @@ class _SubScreenState extends State<SubScreen> {
                 onPressed: () => _initWithAkSk(),
                 child: const Text('initWithAkSk'),
               ),
-              ElevatedButton(
+              /* ElevatedButton(
                 onPressed: () => BaiduOcrPlugin.instance.initCameraNative(),
                 child: const Text('初始化本地质量控制模型'),
-              ),
+              ), */
               ElevatedButton(
                 onPressed: () => _recognizeIdCardFrontNative(context),
                 child: const Text('身份证正面(本地质量控制)'),
@@ -48,10 +48,10 @@ class _SubScreenState extends State<SubScreen> {
                 onPressed: () => _recognizeIdCardBackNative(context),
                 child: const Text('身份证反面(本地质量控制)'),
               ),
-              ElevatedButton(
+              /* ElevatedButton(
                 onPressed: () => BaiduOcrPlugin.instance.releaseCameraNative(),
                 child: const Text('释放本地质量控制模型'),
-              ),
+              ), */
             ],
           ),
         );

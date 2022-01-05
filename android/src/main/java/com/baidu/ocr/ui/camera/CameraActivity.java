@@ -203,7 +203,7 @@ public class CameraActivity extends Activity {
     }
 
     private void initNative(final String token) {
-        BaiduOcrPlugin.log("initNative");
+        BaiduOcrPlugin.loge("initNative in CameraActivity");
         CameraNativeHelper.init(CameraActivity.this, token,
                 new CameraNativeHelper.CameraNativeInitCallback() {
             @Override

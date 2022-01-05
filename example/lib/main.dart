@@ -31,32 +31,27 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return false;
-      },
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('baidu_ocr_plugin'),
-        ),
-        body: Builder(builder: (context) {
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                      return const SubScreen();
-                    }));
-                  },
-                  child: const Text('Go SubScreen'),
-                ),
-              ],
-            ),
-          );
-        }),
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('baidu_ocr_plugin'),
       ),
+      body: Builder(builder: (context) {
+        return Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                    return const SubScreen();
+                  }));
+                },
+                child: const Text('Go SubScreen'),
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }
