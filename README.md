@@ -1,18 +1,59 @@
 # baidu_ocr_plugin
 
-A new flutter plugin project.
+[百度文字识别OCR](https://ai.baidu.com/ai-doc/index/OCR) 插件。
 
-## Getting Started
+iOS SDK版本：`3.0.5`
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+Android SDK版本：`1.4.7`
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## 安装
 
-# TODO
+```shell
+ $ flutter pub add sentry_flutter
+```
 
-【必须！】上传至AppStore前，请使用lipo移除AipBase.framework、AipOcrSdk.framework的模拟器架构，参考FAQ：ai.baidu.com/docs#/OCR-iOS-SDK/top
+## 使用
+
+1. 身份验证：调用 `BaiduOcrPlugin.instance.initWithAkSk(ak, sk);`
+
+   ```dart
+   import 'dart:async';
+   
+   import 'package:baidu_ocr_plugin/baidu_ocr_plugin.dart';
+   
+   void _initWithAkSk() async {
+     try {
+       await BaiduOcrPlugin.instance.initWithAkSk(ak, sk);
+       print("初始化成功");
+     } on BaiduOcrPluginError catch (error) {
+       print("初始化错误: ${error.message}");
+     }
+   }
+   ```
+
+2. 调用相应接口
+
+   - 身份证正面(本地质量控制)`recognizeIdCardFrontNative`
+   - 身份证反面(本地质量控制)`recognizeIdCardBackNative`
+
+   以下以身份证正面(本地质量控制)调用为例
+
+   ```dart
+   import 'package:baidu_ocr_plugin/baidu_ocr_plugin.dart';
+   
+   BaiduOcrPlugin.instance.recognizeIdCardFrontNative(
+     RecognizeCallbackHandler(
+       onStart: () {
+         // 即拍照结束后通知此回调。
+         print("开始识别");
+       },
+       onResult: (IdCardResult result) {
+         print("识别成功。${result.front.name}");
+       },
+       onError: (String description) {
+         print("识别出错。错误原因: $description");
+       },
+     ),
+   );
+   ```
+
