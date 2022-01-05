@@ -9,7 +9,7 @@ Android SDK版本：`1.4.7`
 ## 安装
 
 ```shell
- $ flutter pub add sentry_flutter
+ $ flutter pub add baidu_ocr_plugin
 ```
 
 ## 使用
@@ -18,9 +18,9 @@ Android SDK版本：`1.4.7`
 
    ```dart
    import 'dart:async';
-   
+
    import 'package:baidu_ocr_plugin/baidu_ocr_plugin.dart';
-   
+
    void _initWithAkSk() async {
      try {
        await BaiduOcrPlugin.instance.initWithAkSk(ak, sk);
