@@ -81,7 +81,7 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
               msg = String.valueOf(errorCode);
           }
           String message = "本地质量控制初始化错误，错误原因： " + msg;
-          BaiduOcrPlugin.log(message);
+          BaiduOcrPlugin.loge(message);
         });
   }
 

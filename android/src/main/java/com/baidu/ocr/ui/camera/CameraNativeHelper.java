@@ -49,7 +49,7 @@ public class CameraNativeHelper {
                 int initModelStatus = IDcardQualityProcess.getInstance()
                         .idcardQualityInit(ctx.getAssets(),
                                 "models");
-                BaiduOcrPlugin.log("initModelStatus: " + initModelStatus);
+                BaiduOcrPlugin.loge("initModelStatus: " + initModelStatus);
 
                 if (initModelStatus != 0) {
                     cb.onError(CameraView.NATIVE_INIT_FAIL, null);

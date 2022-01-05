@@ -63,4 +63,8 @@ public class BaiduOcrPlugin implements FlutterPlugin, ActivityAware {
   public static void log(String message) {
     Log.d(TAG, "🍑" + message);
   }
+
+  public static void loge(String message) {
+    Log.e(TAG, "🍑" + message);
+  }
 }
