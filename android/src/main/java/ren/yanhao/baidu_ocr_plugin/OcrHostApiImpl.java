@@ -97,7 +97,7 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
 
   private void recognizeIdCardNative(String activityContentType) {
     BaiduOcrPlugin.log("recognizeIdCard, idCardSide: " + activityContentType);
-    initCameraNative();
+    // initCameraNative();
     // KEY_NATIVE_MANUAL 设置了之后 CameraActivity 中不再自动初始化和释放模型
     // 请手动使用CameraNativeHelper初始化和释放模型
     // 推荐这样做，可以避免一些activity切换导致的不必要的异常
