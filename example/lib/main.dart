@@ -50,7 +50,7 @@ class _HomeState extends State<Home> {
                       return const SubScreen();
                     }));
                   },
-                  child: const Text('Go SubPage'),
+                  child: const Text('Go SubScreen'),
                 ),
               ],
             ),

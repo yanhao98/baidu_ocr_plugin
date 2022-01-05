@@ -45,7 +45,7 @@ class BaiduOcrPlugin {
     _hostApi.releaseCameraNative();
   }
 
-  /// 初始化本地质量控制模型。
+  /// 初始化Android端本地质量控制模型。
   void initCameraNative() {
     _hostApi.initCameraNative();
   }
