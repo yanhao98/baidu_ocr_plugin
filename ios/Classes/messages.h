@@ -26,6 +26,7 @@ NSObject<FlutterMessageCodec> *OcrHostApiGetCodec(void);
 - (void)recognizeIdCardBackNativeWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (void)initCameraNativeWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (void)releaseCameraNativeWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeBankCardWithError:(FlutterError *_Nullable *_Nonnull)error;
 @end
 
 extern void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHostApi> *_Nullable api);

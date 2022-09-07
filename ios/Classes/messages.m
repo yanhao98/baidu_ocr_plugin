@@ -206,6 +206,24 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
       [channel setMessageHandler:nil];
     }
   }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeBankCard"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeBankCardWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeBankCardWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeBankCardWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
 }
 @interface RecognizeListenerFlutterApiCodecReader : FlutterStandardReader
 @end

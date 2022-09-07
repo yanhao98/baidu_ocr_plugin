@@ -39,7 +39,7 @@
 - (void)initWithAkSkRequest:(InitWithAkSkRequestData *)request completion:(nonnull void (^)(FlutterError * _Nullable))completion {
     NSLog(@"initWithAkSkRequest");
     [[AipOcrService shardService] authWithAK:request.ak andSK:request.sk];
-
+    
     [[AipOcrService shardService] getTokenSuccessHandler:^(NSString *token) {
         completion(nil);
     } failHandler:^(NSError *error) {
@@ -72,7 +72,7 @@
             NSLog(@"failHandler");
         }];
     }];
-
+    
     // 打开拍照
     [[[UIApplication sharedApplication].keyWindow rootViewController] presentViewController:vc animated:YES completion:nil];
 }
@@ -101,7 +101,7 @@
             NSLog(@"failHandler");
         }];
     }];
-
+    
     // 打开拍照
     [[[UIApplication sharedApplication].keyWindow rootViewController] presentViewController:vc animated:YES completion:nil];
 }
@@ -110,8 +110,42 @@
     NSLog(@"releaseCameraNativeWithError");
 }
 
+// 银行卡正面拍照识别
 - (void)recognizeBankCardWithError:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
     NSLog(@"recognizeBankCardWithError");
+    //    UIViewController * vc =
+    //    [AipCaptureCardVC ViewControllerWithCardType:CardTypeBankCard
+    //                                 andImageHandler:^(UIImage *image) {
+    //
+    //        [[AipOcrService shardService] detectBankCardFromImage:image
+    //                                               successHandler:_successHandler
+    //                                                  failHandler:_failHandler];
+    //
+    //    }];
+    //    [self bd_presentViewControllerWithFullScreen:vc animated:YES completion:nil];
+    UIViewController * vc =
+    [AipCaptureCardVC ViewControllerWithCardType:CardTypeBankCard
+                                 andImageHandler:^(UIImage *image) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            // 通知FLT端开始识别。
+            [self->_flutterApi onReceivedStartWithCompletion:^(NSError * _Nullable _) {}];
+            // 关闭拍照
+            [[[UIApplication sharedApplication].keyWindow rootViewController] dismissViewControllerAnimated:YES completion:nil];
+        });
+        [[AipOcrService shardService] detectBankCardFromImage:image
+                                               successHandler:^(id aipOcrResult) {
+            NSLog(@"successHandler");
+            [self->_flutterApi onReceivedResultResult:[BaiduOcrPlugin dictionaryToJson:aipOcrResult] completion:^(NSError * _Nullable _) {}];
+        } failHandler:^(NSError *err) {
+            NSLog(@"failHandler");
+            NSString *msg = [NSString stringWithFormat:@"%li:%@", (long)[err code], [err localizedDescription]];
+            [self->_flutterApi onReceivedErrorDescription:msg completion:^(NSError * _Nullable _) {}];
+        }];
+    }];
+    
+    
+    // 打开拍照
+    [[[UIApplication sharedApplication].keyWindow rootViewController] presentViewController:vc animated:YES completion:nil];
 }
 
 
