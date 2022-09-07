@@ -48,6 +48,10 @@ class _SubScreenState extends State<SubScreen> {
                 onPressed: () => _recognizeIdCardBackNative(context),
                 child: const Text('身份证反面(本地质量控制)'),
               ),
+              ElevatedButton(
+                onPressed: () => _recBankCard(context),
+                child: const Text('银行卡识别'),
+              ),
               /* ElevatedButton(
                 onPressed: () => BaiduOcrPlugin.instance.releaseCameraNative(),
                 child: const Text('释放本地质量控制模型'),
@@ -60,20 +64,24 @@ class _SubScreenState extends State<SubScreen> {
   }
 
   void _initWithAkSk() {
-    EasyLoading.show(status: '_initWithAkSk', maskType: EasyLoadingMaskType.black);
+    EasyLoading.show(
+        status: '_initWithAkSk', maskType: EasyLoadingMaskType.black);
 
     BaiduOcrPlugin.instance //
         .initWithAkSk(ak, sk)
-        .then((_) => EasyLoading.dismiss().then((_) => EasyLoading.showInfo('init success')))
+        .then((_) => EasyLoading.dismiss()
+            .then((_) => EasyLoading.showInfo('init success')))
         .onError<BaiduOcrPluginError>(
-          (error, stackTrace) => EasyLoading.dismiss().then((_) => _alertText(context, '初始化错误', error.message)),
+          (error, stackTrace) => EasyLoading.dismiss()
+              .then((_) => _alertText(context, '初始化错误', error.message)),
         );
   }
 
   void _recognizeIdCardBackNative(BuildContext context) {
     BaiduOcrPlugin.instance.recognizeIdCardBackNative(
       RecognizeCallbackHandler(
-        onStart: () => EasyLoading.show(status: '正在识别...', maskType: EasyLoadingMaskType.black),
+        onStart: () => EasyLoading.show(
+            status: '正在识别...', maskType: EasyLoadingMaskType.black),
         onResult: (result) => EasyLoading.dismiss().then(
           (_) => _alertText(
               context,
@@ -92,7 +100,8 @@ class _SubScreenState extends State<SubScreen> {
   void _recognizeIdCardFrontNative(BuildContext context) async {
     BaiduOcrPlugin.instance.recognizeIdCardFrontNative(
       RecognizeCallbackHandler(
-        onStart: () => EasyLoading.show(status: '正面识别...', maskType: EasyLoadingMaskType.black),
+        onStart: () => EasyLoading.show(
+            status: '正面识别...', maskType: EasyLoadingMaskType.black),
         onResult: (result) => EasyLoading.dismiss().then((_) => _alertText(
             context,
             '正面扫描结果',
@@ -128,5 +137,25 @@ class _SubScreenState extends State<SubScreen> {
         );
       },
     );
+  }
+
+  _recBankCard(BuildContext context) {
+    BaiduOcrPlugin.instance.recognizeBankCard(RecognizeCallbackHandler(
+      onStart: () => EasyLoading.show(
+          status: '正在识别...', maskType: EasyLoadingMaskType.black),
+      onResult: (result) => EasyLoading.dismiss().then(
+        (_) => _alertText(
+            context,
+            '银行卡扫描结果',
+            '${result.bankCardNumber}\n'
+                'validDate: ${result.validDate}\n'
+                'bankCardType: ${result.bankCardType}\n'
+                'bankName: ${result.bankName}\n'
+                'holderName: ${result.holderName}\n'),
+      ),
+      onError: (description) => EasyLoading.dismiss().then(
+        (_) => _alertText(context, '银行卡扫描错误', description),
+      ),
+    ));
   }
 }

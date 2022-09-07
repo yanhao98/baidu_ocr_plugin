@@ -21,6 +21,9 @@ abstract class OcrHostApi {
 
   /// 释放本地质量控制模型
   void releaseCameraNative();
+
+  /// 银行卡识别
+  void recognizeBankCard();
 }
 
 @FlutterApi()

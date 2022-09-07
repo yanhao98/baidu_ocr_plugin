@@ -5,6 +5,8 @@ import android.content.Context;
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
+import com.baidu.ocr.sdk.model.BankCardParams;
+import com.baidu.ocr.sdk.model.BankCardResult;
 import com.baidu.ocr.sdk.model.IDCardParams;
 import com.baidu.ocr.sdk.model.IDCardResult;
 
@@ -44,5 +46,28 @@ public class RecognizeService {
       }
     });
 
+  }
+
+  public static void recBankCard(Context ctx, String filePath, final ServiceListener listener) {
+    BankCardParams param = new BankCardParams();
+    param.setImageFile(new File(filePath));
+    OCR.getInstance(ctx).recognizeBankCard(param, new OnResultListener<BankCardResult>() {
+      @Override
+      public void onResult(BankCardResult result) {
+                /*String res = String.format("卡号：%s\n类型：%s\n发卡行：%s\n有效日期：%s\n持有者姓名：%s",
+                        result.getBankCardNumber(),
+                        result.getBankCardType().name(),
+                        result.getBankName(),
+                        result.getValid_date(),
+                        result.getHolder_name());
+                listener.onResult(res);*/
+        listener.onResult(result.getJsonRes());
+      }
+
+      @Override
+      public void onError(OCRError error) {
+        listener.onResult(error.getMessage());
+      }
+    });
   }
 }

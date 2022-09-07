@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/services.dart';
 
+import 'src/entity/bank_card_result.dart';
 import 'src/entity/id_card_result.dart';
 import 'src/pigeon.dart';
 import 'src/recognize_callback_handler.dart';
@@ -12,6 +13,7 @@ export 'src/recognize_callback_handler.dart';
 
 class BaiduOcrPluginError implements Exception {
   final String message;
+
   BaiduOcrPluginError({
     required this.message,
   });
@@ -28,13 +30,12 @@ class BaiduOcrPlugin {
   static BaiduOcrPlugin get instance => _instance;
 
   static final OcrHostApi _hostApi = OcrHostApi();
-  static final RecognizeFlutterApiImpl _recognizeFlutterApi = RecognizeFlutterApiImpl();
+  static final RecognizeFlutterApiImpl _recognizeFlutterApi =
+      RecognizeFlutterApiImpl();
 
   Future<void> initWithAkSk(String ak, String sk) async {
     try {
-      await _hostApi.initWithAkSk(InitWithAkSkRequestData()
-        ..ak = ak
-        ..sk = sk);
+      await _hostApi.initWithAkSk(InitWithAkSkRequestData(ak: ak, sk: sk));
     } on PlatformException catch (e) {
       throw BaiduOcrPluginError(message: '${e.message}');
     }
@@ -72,5 +73,18 @@ class BaiduOcrPlugin {
     );
 
     _hostApi.recognizeIdCardBackNative();
+  }
+
+  /// 银行卡识别
+  void recognizeBankCard(RecognizeCallbackHandler<BankCardResult> cb) {
+    _recognizeFlutterApi.callbackHandler = RecognizeCallbackHandler(
+      onStart: cb.onStart,
+      onResult: (result) {
+        cb.onResult.call(BankCardResult.fromJson(result));
+      },
+      onError: cb.onError,
+    );
+
+    _hostApi.recognizeBankCard();
   }
 }

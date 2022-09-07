@@ -107,6 +107,7 @@ public class Pigeon {
     void recognizeIdCardBackNative();
     void initCameraNative();
     void releaseCameraNative();
+    void recognizeBankCard();
 
     /** The codec used by OcrHostApi. */
     static MessageCodec<Object> getCodec() {
@@ -214,6 +215,25 @@ public class Pigeon {
             Map<String, Object> wrapped = new HashMap<>();
             try {
               api.releaseCameraNative();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeBankCard", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeBankCard();
               wrapped.put("result", null);
             }
             catch (Error | RuntimeException exception) {
