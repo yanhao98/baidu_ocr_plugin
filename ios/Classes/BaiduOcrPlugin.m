@@ -68,8 +68,10 @@
             NSLog(@"successHandler");
             [self->_flutterApi onReceivedResultResult:[BaiduOcrPlugin dictionaryToJson:aipOcrResult] completion:^(NSError * _Nullable _) {}];
         }
-         failHandler:^(NSError *error){
+         failHandler:^(NSError *err){
             NSLog(@"failHandler");
+            NSString *msg = [NSString stringWithFormat:@"%li:%@", (long)[err code], [err localizedDescription]];
+            [self->_flutterApi onReceivedErrorDescription:msg completion:^(NSError * _Nullable _) {}];
         }];
     }];
     
@@ -99,6 +101,8 @@
         }
          failHandler:^(NSError *error){
             NSLog(@"failHandler");
+            NSString *msg = [NSString stringWithFormat:@"%li:%@", (long)[error code], [error localizedDescription]];
+            [self->_flutterApi onReceivedErrorDescription:msg completion:^(NSError * _Nullable _) {}];
         }];
     }];
     
