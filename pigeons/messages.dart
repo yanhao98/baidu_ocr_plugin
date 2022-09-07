@@ -26,6 +26,8 @@ abstract class OcrHostApi {
 @FlutterApi()
 abstract class RecognizeListenerFlutterApi {
   void onReceivedStart();
+
   void onReceivedResult(String result);
+
   void onReceivedError(String description);
 }

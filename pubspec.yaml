@@ -13,11 +13,10 @@ dependencies:
   recase: ^4.0.0
 
 dev_dependencies:
-
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-  pigeon: ^1.0.12
+  pigeon: ^4.0.2
 
 flutter:
   plugin:
