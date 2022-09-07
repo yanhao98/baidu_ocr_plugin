@@ -432,6 +432,42 @@
                   successHandler:(void (^)(id result))successHandler
                      failHandler:(void (^)(NSError* err))failHandler;
 
+/**
+磅单识别
+* @param image 图像
+* @param options 可选参数
+* @param successHandler 成功回调
+* @param failHandler 失败回调
+*/
+- (void)weightNoteImage:(UIImage *)image
+                   withOptions:(NSDictionary *)options
+                successHandler:(void (^)(id result))successHandler
+                   failHandler:(void (^)(NSError* err))failHandler;
+
+/**
+ 医疗费用明细
+* @param image 图像
+* @param options 可选参数
+* @param successHandler 成功回调
+* @param failHandler 失败回调
+*/
+- (void)medicalDetailImage:(UIImage *)image
+                   withOptions:(NSDictionary *)options
+                successHandler:(void (^)(id result))successHandler
+                   failHandler:(void (^)(NSError* err))failHandler;
+
+/**
+ 网约车行程单识别
+* @param image 图像
+* @param options 可选参数
+* @param successHandler 成功回调
+* @param failHandler 失败回调
+*/
+- (void)onlineTaxiItineraryImage:(UIImage *)image
+                   withOptions:(NSDictionary *)options
+                successHandler:(void (^)(id result))successHandler
+                   failHandler:(void (^)(NSError* err))failHandler;
+
 
 
 @end

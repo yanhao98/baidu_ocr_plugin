@@ -2,27 +2,27 @@ PODS:
   - baidu_ocr_plugin (0.0.1):
     - Flutter
   - Flutter (1.0.0)
-  - "permission_handler (5.1.0+2)":
+  - permission_handler_apple (9.0.4):
     - Flutter
 
 DEPENDENCIES:
   - baidu_ocr_plugin (from `.symlinks/plugins/baidu_ocr_plugin/ios`)
   - Flutter (from `Flutter`)
-  - permission_handler (from `.symlinks/plugins/permission_handler/ios`)
+  - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
 
 EXTERNAL SOURCES:
   baidu_ocr_plugin:
     :path: ".symlinks/plugins/baidu_ocr_plugin/ios"
   Flutter:
     :path: Flutter
-  permission_handler:
-    :path: ".symlinks/plugins/permission_handler/ios"
+  permission_handler_apple:
+    :path: ".symlinks/plugins/permission_handler_apple/ios"
 
 SPEC CHECKSUMS:
-  baidu_ocr_plugin: 1533bb269597e7ef2f5d849e944be82d20453e73
-  Flutter: 50d75fe2f02b26cc09d224853bb45737f8b3214a
-  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
+  baidu_ocr_plugin: 58b21cc1dd972b411fe9a2b476ed069534f7a322
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  permission_handler_apple: 44366e37eaf29454a1e7b1b7d736c2cceaeb17ce
 
-PODFILE CHECKSUM: 8e679eca47255a8ca8067c4c67aab20e64cb974d
+PODFILE CHECKSUM: 663715e941f9adb426e33bf9376914006f9ea95b
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

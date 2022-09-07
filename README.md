@@ -2,7 +2,7 @@
 
 [百度文字识别OCR](https://ai.baidu.com/ai-doc/index/OCR) 插件。
 
-iOS SDK版本：`3.0.5`
+iOS SDK版本：`3.0.7`
 
 Android SDK版本：`2.0.1`
 
@@ -40,7 +40,7 @@ Android SDK版本：`2.0.1`
 
    ```dart
    import 'package:baidu_ocr_plugin/baidu_ocr_plugin.dart';
-   
+
    BaiduOcrPlugin.instance.recognizeIdCardFrontNative(
      RecognizeCallbackHandler(
        onStart: () {

@@ -37,5 +37,5 @@ A new flutter plugin project.
   # s.libraries    = ['c++']
   # s.ios.vendored_frameworks = 'aip-ocr-ios-sdk-3.0.5/lib/*.framework'
   # s.vendored_frameworks = 'AipBase.framework', 'AipOcrSdk.framework', 'IdcardQuality.framework'
-  s.vendored_frameworks = 'aip-ocr-ios-sdk-3.0.5/lib/AipBase.framework', 'aip-ocr-ios-sdk-3.0.5/lib/AipOcrSdk.framework', 'aip-ocr-ios-sdk-3.0.5/lib/IdcardQuality.framework'
+  s.vendored_frameworks = 'aip-ocr-ios-sdk-3.0.7/lib/AipBase.framework', 'aip-ocr-ios-sdk-3.0.7/lib/AipOcrSdk.framework', 'aip-ocr-ios-sdk-3.0.7/lib/IdcardQuality.framework'
 end

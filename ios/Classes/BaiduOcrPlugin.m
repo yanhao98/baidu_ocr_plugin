@@ -36,7 +36,7 @@
     NSLog(@"initCameraNativeWithError");
 }
 
-- (void)initWithAkSkRequest:(nullable InitWithAkSkRequestData *)request completion:(nonnull void (^)(FlutterError * _Nullable))completion {
+- (void)initWithAkSkRequest:(InitWithAkSkRequestData *)request completion:(nonnull void (^)(FlutterError * _Nullable))completion {
     NSLog(@"initWithAkSkRequest");
     [[AipOcrService shardService] authWithAK:request.ak andSK:request.sk];
 
@@ -109,6 +109,11 @@
 - (void)releaseCameraNativeWithError:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
     NSLog(@"releaseCameraNativeWithError");
 }
+
+- (void)recognizeBankCardWithError:(FlutterError * _Nullable __autoreleasing * _Nonnull)error {
+    NSLog(@"recognizeBankCardWithError");
+}
+
 
 + (NSString*)dictionaryToJson:(NSDictionary *)dic{
     NSError *parseError = nil;
