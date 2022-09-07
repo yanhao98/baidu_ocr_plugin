@@ -1,7 +1,7 @@
 name: baidu_ocr_plugin
 description: 百度文字识别 OCR
 repository: https://github.com/yanhao98/baidu_ocr_plugin
-version: 1.0.1
+version: 1.0.2
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
