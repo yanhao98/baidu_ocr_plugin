@@ -4,7 +4,7 @@
 
 iOS SDK版本：`3.0.5`
 
-Android SDK版本：`1.4.7`
+Android SDK版本：`2.0.1`
 
 ## 安装
 
@@ -56,4 +56,8 @@ Android SDK版本：`1.4.7`
      ),
    );
    ```
+
+## 资源
+
+https://ai.baidu.com/sdk#ocr
 
