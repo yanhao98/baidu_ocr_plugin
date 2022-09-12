@@ -70,6 +70,117 @@ public class Pigeon {
     }
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class InitResponseData {
+    private @Nullable Boolean isSuccess;
+    public @Nullable Boolean getIsSuccess() { return isSuccess; }
+    public void setIsSuccess(@Nullable Boolean setterArg) {
+      this.isSuccess = setterArg;
+    }
+
+    private @Nullable String accessToken;
+    public @Nullable String getAccessToken() { return accessToken; }
+    public void setAccessToken(@Nullable String setterArg) {
+      this.accessToken = setterArg;
+    }
+
+    private @Nullable OCRErrorResponseData ocrError;
+    public @Nullable OCRErrorResponseData getOcrError() { return ocrError; }
+    public void setOcrError(@Nullable OCRErrorResponseData setterArg) {
+      this.ocrError = setterArg;
+    }
+
+    public static final class Builder {
+      private @Nullable Boolean isSuccess;
+      public @NonNull Builder setIsSuccess(@Nullable Boolean setterArg) {
+        this.isSuccess = setterArg;
+        return this;
+      }
+      private @Nullable String accessToken;
+      public @NonNull Builder setAccessToken(@Nullable String setterArg) {
+        this.accessToken = setterArg;
+        return this;
+      }
+      private @Nullable OCRErrorResponseData ocrError;
+      public @NonNull Builder setOcrError(@Nullable OCRErrorResponseData setterArg) {
+        this.ocrError = setterArg;
+        return this;
+      }
+      public @NonNull InitResponseData build() {
+        InitResponseData pigeonReturn = new InitResponseData();
+        pigeonReturn.setIsSuccess(isSuccess);
+        pigeonReturn.setAccessToken(accessToken);
+        pigeonReturn.setOcrError(ocrError);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("isSuccess", isSuccess);
+      toMapResult.put("accessToken", accessToken);
+      toMapResult.put("ocrError", (ocrError == null) ? null : ocrError.toMap());
+      return toMapResult;
+    }
+    static @NonNull InitResponseData fromMap(@NonNull Map<String, Object> map) {
+      InitResponseData pigeonResult = new InitResponseData();
+      Object isSuccess = map.get("isSuccess");
+      pigeonResult.setIsSuccess((Boolean)isSuccess);
+      Object accessToken = map.get("accessToken");
+      pigeonResult.setAccessToken((String)accessToken);
+      Object ocrError = map.get("ocrError");
+      pigeonResult.setOcrError((ocrError == null) ? null : OCRErrorResponseData.fromMap((Map)ocrError));
+      return pigeonResult;
+    }
+  }
+
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static class OCRErrorResponseData {
+    private @Nullable Long errorCode;
+    public @Nullable Long getErrorCode() { return errorCode; }
+    public void setErrorCode(@Nullable Long setterArg) {
+      this.errorCode = setterArg;
+    }
+
+    private @Nullable String errorMessage;
+    public @Nullable String getErrorMessage() { return errorMessage; }
+    public void setErrorMessage(@Nullable String setterArg) {
+      this.errorMessage = setterArg;
+    }
+
+    public static final class Builder {
+      private @Nullable Long errorCode;
+      public @NonNull Builder setErrorCode(@Nullable Long setterArg) {
+        this.errorCode = setterArg;
+        return this;
+      }
+      private @Nullable String errorMessage;
+      public @NonNull Builder setErrorMessage(@Nullable String setterArg) {
+        this.errorMessage = setterArg;
+        return this;
+      }
+      public @NonNull OCRErrorResponseData build() {
+        OCRErrorResponseData pigeonReturn = new OCRErrorResponseData();
+        pigeonReturn.setErrorCode(errorCode);
+        pigeonReturn.setErrorMessage(errorMessage);
+        return pigeonReturn;
+      }
+    }
+    @NonNull Map<String, Object> toMap() {
+      Map<String, Object> toMapResult = new HashMap<>();
+      toMapResult.put("errorCode", errorCode);
+      toMapResult.put("errorMessage", errorMessage);
+      return toMapResult;
+    }
+    static @NonNull OCRErrorResponseData fromMap(@NonNull Map<String, Object> map) {
+      OCRErrorResponseData pigeonResult = new OCRErrorResponseData();
+      Object errorCode = map.get("errorCode");
+      pigeonResult.setErrorCode((errorCode == null) ? null : ((errorCode instanceof Integer) ? (Integer)errorCode : (Long)errorCode));
+      Object errorMessage = map.get("errorMessage");
+      pigeonResult.setErrorMessage((String)errorMessage);
+      return pigeonResult;
+    }
+  }
+
   public interface Result<T> {
     void success(T result);
     void error(Throwable error);
@@ -81,7 +192,13 @@ public class Pigeon {
     protected Object readValueOfType(byte type, ByteBuffer buffer) {
       switch (type) {
         case (byte)128:         
+          return InitResponseData.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)129:         
           return InitWithAkSkRequestData.fromMap((Map<String, Object>) readValue(buffer));
+        
+        case (byte)130:         
+          return OCRErrorResponseData.fromMap((Map<String, Object>) readValue(buffer));
         
         default:        
           return super.readValueOfType(type, buffer);
@@ -90,9 +207,17 @@ public class Pigeon {
     }
     @Override
     protected void writeValue(ByteArrayOutputStream stream, Object value)     {
-      if (value instanceof InitWithAkSkRequestData) {
+      if (value instanceof InitResponseData) {
         stream.write(128);
+        writeValue(stream, ((InitResponseData) value).toMap());
+      } else 
+      if (value instanceof InitWithAkSkRequestData) {
+        stream.write(129);
         writeValue(stream, ((InitWithAkSkRequestData) value).toMap());
+      } else 
+      if (value instanceof OCRErrorResponseData) {
+        stream.write(130);
+        writeValue(stream, ((OCRErrorResponseData) value).toMap());
       } else 
 {
         super.writeValue(stream, value);
@@ -102,11 +227,39 @@ public class Pigeon {
 
   /** Generated interface from Pigeon that represents a handler of messages from Flutter.*/
   public interface OcrHostApi {
-    void initWithAkSk(@NonNull InitWithAkSkRequestData request, Result<Void> result);
+    void initAccessTokenWithAkSk(@NonNull InitWithAkSkRequestData request, Result<InitResponseData> result);
+    void initAccessToken(Result<InitResponseData> result);
+    void recognizeGeneralBasic();
+    void recognizeAccurateBasic();
+    void recognizeGeneral();
+    void recognizeAccurate();
+    void recognizeGeneralEnhanced();
+    void recognizeWebimage();
+    void recognizeDrivingLicense();
+    void recognizeVehicleLicense();
+    void recognizeBusinessLicense();
+    void recognizeReceipt();
+    void recognizeVatInvoice();
+    void recognizeTaxireceipt();
+    void recognizeLicensePlate();
+    void recognizeVincode();
+    void recognizeTrainticket();
+    void recognizeNumbers();
+    void recognizeQrcode();
+    void recoginzeTripTicket();
+    void recoginzeVihickleSellInvoice();
+    void recoginzeVihickleCertificate();
+    void recoginzeExampleDoc();
+    void recoginzeWrittenText();
+    void recognizePassport();
+    void recoginzeHuKouPage();
+    void recoginzeNormalMachineInvoice();
+    void recognizeCustom();
+    void recoginzeweightnote();
+    void recoginzemedicaldetail();
+    void recoginzeonlinetaxiitinerary();
     void recognizeIdCardFrontNative();
     void recognizeIdCardBackNative();
-    void initCameraNative();
-    void releaseCameraNative();
     void recognizeBankCard();
 
     /** The codec used by OcrHostApi. */
@@ -118,7 +271,7 @@ public class Pigeon {
     static void setup(BinaryMessenger binaryMessenger, OcrHostApi api) {
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.initWithAkSk", getCodec());
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.initAccessTokenWithAkSk", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
             Map<String, Object> wrapped = new HashMap<>();
@@ -128,9 +281,9 @@ public class Pigeon {
               if (requestArg == null) {
                 throw new NullPointerException("requestArg unexpectedly null.");
               }
-              Result<Void> resultCallback = new Result<Void>() {
-                public void success(Void result) {
-                  wrapped.put("result", null);
+              Result<InitResponseData> resultCallback = new Result<InitResponseData>() {
+                public void success(InitResponseData result) {
+                  wrapped.put("result", result);
                   reply.reply(wrapped);
                 }
                 public void error(Throwable error) {
@@ -139,12 +292,592 @@ public class Pigeon {
                 }
               };
 
-              api.initWithAkSk(requestArg, resultCallback);
+              api.initAccessTokenWithAkSk(requestArg, resultCallback);
             }
             catch (Error | RuntimeException exception) {
               wrapped.put("error", wrapError(exception));
               reply.reply(wrapped);
             }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.initAccessToken", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              Result<InitResponseData> resultCallback = new Result<InitResponseData>() {
+                public void success(InitResponseData result) {
+                  wrapped.put("result", result);
+                  reply.reply(wrapped);
+                }
+                public void error(Throwable error) {
+                  wrapped.put("error", wrapError(error));
+                  reply.reply(wrapped);
+                }
+              };
+
+              api.initAccessToken(resultCallback);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+              reply.reply(wrapped);
+            }
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeGeneralBasic", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeGeneralBasic();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeAccurateBasic", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeAccurateBasic();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeGeneral", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeGeneral();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeAccurate", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeAccurate();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeGeneralEnhanced", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeGeneralEnhanced();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeWebimage", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeWebimage();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeDrivingLicense", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeDrivingLicense();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeVehicleLicense", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeVehicleLicense();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeBusinessLicense", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeBusinessLicense();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeReceipt", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeReceipt();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeVatInvoice", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeVatInvoice();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeTaxireceipt", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeTaxireceipt();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeLicensePlate", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeLicensePlate();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeVincode", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeVincode();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeTrainticket", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeTrainticket();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeNumbers", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeNumbers();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeQrcode", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeQrcode();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeTripTicket", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeTripTicket();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeVihickleSellInvoice", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeVihickleSellInvoice();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeVihickleCertificate", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeVihickleCertificate();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeExampleDoc", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeExampleDoc();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeWrittenText", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeWrittenText();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizePassport", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizePassport();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeHuKouPage", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeHuKouPage();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeNormalMachineInvoice", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeNormalMachineInvoice();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeCustom", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recognizeCustom();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeweightnote", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeweightnote();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzemedicaldetail", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzemedicaldetail();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
+          });
+        } else {
+          channel.setMessageHandler(null);
+        }
+      }
+      {
+        BasicMessageChannel<Object> channel =
+            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recoginzeonlinetaxiitinerary", getCodec());
+        if (api != null) {
+          channel.setMessageHandler((message, reply) -> {
+            Map<String, Object> wrapped = new HashMap<>();
+            try {
+              api.recoginzeonlinetaxiitinerary();
+              wrapped.put("result", null);
+            }
+            catch (Error | RuntimeException exception) {
+              wrapped.put("error", wrapError(exception));
+            }
+            reply.reply(wrapped);
           });
         } else {
           channel.setMessageHandler(null);
@@ -190,44 +923,6 @@ public class Pigeon {
       }
       {
         BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.initCameraNative", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              api.initCameraNative();
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.releaseCameraNative", getCodec());
-        if (api != null) {
-          channel.setMessageHandler((message, reply) -> {
-            Map<String, Object> wrapped = new HashMap<>();
-            try {
-              api.releaseCameraNative();
-              wrapped.put("result", null);
-            }
-            catch (Error | RuntimeException exception) {
-              wrapped.put("error", wrapError(exception));
-            }
-            reply.reply(wrapped);
-          });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
             new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.OcrHostApi.recognizeBankCard", getCodec());
         if (api != null) {
           channel.setMessageHandler((message, reply) -> {
@@ -250,6 +945,27 @@ public class Pigeon {
   private static class RecognizeListenerFlutterApiCodec extends StandardMessageCodec {
     public static final RecognizeListenerFlutterApiCodec INSTANCE = new RecognizeListenerFlutterApiCodec();
     private RecognizeListenerFlutterApiCodec() {}
+    @Override
+    protected Object readValueOfType(byte type, ByteBuffer buffer) {
+      switch (type) {
+        case (byte)128:         
+          return OCRErrorResponseData.fromMap((Map<String, Object>) readValue(buffer));
+        
+        default:        
+          return super.readValueOfType(type, buffer);
+        
+      }
+    }
+    @Override
+    protected void writeValue(ByteArrayOutputStream stream, Object value)     {
+      if (value instanceof OCRErrorResponseData) {
+        stream.write(128);
+        writeValue(stream, ((OCRErrorResponseData) value).toMap());
+      } else 
+{
+        super.writeValue(stream, value);
+      }
+    }
   }
 
   /** Generated class from Pigeon that represents Flutter messages that can be called from Java.*/
@@ -272,17 +988,17 @@ public class Pigeon {
         callback.reply(null);
       });
     }
-    public void onReceivedResult(@NonNull String resultArg, Reply<Void> callback) {
+    public void onReceivedResult(@NonNull String jsonResultArg, Reply<Void> callback) {
       BasicMessageChannel<Object> channel =
           new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult", getCodec());
-      channel.send(new ArrayList<Object>(Arrays.asList(resultArg)), channelReply -> {
+      channel.send(new ArrayList<Object>(Arrays.asList(jsonResultArg)), channelReply -> {
         callback.reply(null);
       });
     }
-    public void onReceivedError(@NonNull String descriptionArg, Reply<Void> callback) {
+    public void onReceivedError(@NonNull OCRErrorResponseData ocrErrorResponseDataArg, Reply<Void> callback) {
       BasicMessageChannel<Object> channel =
           new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError", getCodec());
-      channel.send(new ArrayList<Object>(Arrays.asList(descriptionArg)), channelReply -> {
+      channel.send(new ArrayList<Object>(Arrays.asList(ocrErrorResponseDataArg)), channelReply -> {
         callback.reply(null);
       });
     }

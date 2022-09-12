@@ -40,7 +40,7 @@ Android SDK版本：`2.0.1`
 
    ```dart
    import 'package:baidu_ocr_plugin/baidu_ocr_plugin.dart';
-
+   
    BaiduOcrPlugin.instance.recognizeIdCardFrontNative(
      RecognizeCallbackHandler(
        onStart: () {
@@ -61,3 +61,8 @@ Android SDK版本：`2.0.1`
 
 https://ai.baidu.com/sdk#ocr
 
+[文字识别控制台](https://console.bce.baidu.com/ai/#/ai/ocr/overview/index)
+
+[Android 授权文件（安全模式）获取AccessToken](https://ai.baidu.com/ai-doc/OCR/5kibizyrv#授权文件（安全模式）获取accesstoken)
+
+[iOS 授权文件（安全模式）获取AccessToken](https://ai.baidu.com/ai-doc/OCR/6kibizx7f#授权文件（安全模式）)

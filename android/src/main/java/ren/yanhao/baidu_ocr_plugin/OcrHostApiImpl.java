@@ -4,18 +4,18 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.annotation.NonNull;
+
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
 import com.baidu.ocr.sdk.model.AccessToken;
 import com.baidu.ocr.ui.camera.CameraActivity;
-import com.baidu.ocr.ui.camera.CameraNativeHelper;
-import com.baidu.ocr.ui.camera.CameraView;
 
 public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     private final Context context;
     private Activity activity;
-    private boolean hasCameraNativeInitialized = false;
+//    private boolean hasCameraNativeInitialized = false;
 
     public OcrHostApiImpl(Context context) {
         this.context = context;
@@ -25,35 +25,7 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
         this.activity = activity;
     }
 
-    @Override
-    public void initWithAkSk(Pigeon.InitWithAkSkRequestData request, Pigeon.Result<Void> result) {
-        BaiduOcrPlugin.log("initWithAkSk");
-        OCR.getInstance(context).initAccessTokenWithAkSk(
-                new OnResultListener<AccessToken>() {
-                    @Override
-                    public void onResult(AccessToken accessToken) {
-                        result.success(null);
-                    }
-
-                    @Override
-                    public void onError(OCRError ocrError) {
-                        result.error(new PluginException(ocrError.getMessage()));
-                    }
-                }, context, request.getAk(), request.getSk());
-    }
-
-    @Override
-    public void recognizeIdCardFrontNative() {
-        BaiduOcrPlugin.log("开始身份证正面扫描");
-        this.recognizeIdCardNative(CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
-    }
-
-    @Override
-    public void recognizeIdCardBackNative() {
-        BaiduOcrPlugin.log("开始身份证反面扫描");
-        this.recognizeIdCardNative(CameraActivity.CONTENT_TYPE_ID_CARD_BACK);
-    }
-
+    /*
     @Override
     public void initCameraNative() {
         BaiduOcrPlugin.log("initCameraNative, hasCameraNativeInitialized: " + hasCameraNativeInitialized);
@@ -83,8 +55,9 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
                     String message = "本地质量控制初始化错误，错误原因： " + msg;
                     BaiduOcrPlugin.loge(message);
                 });
-    }
+    }*/
 
+    /*
     @Override
     public void releaseCameraNative() {
         BaiduOcrPlugin.log("releaseCameraNative, hasCameraNativeInitialized: " + hasCameraNativeInitialized);
@@ -93,20 +66,306 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
         }
         hasCameraNativeInitialized = false;
         CameraNativeHelper.release();
+    }*/
+
+    @Override
+    public void initAccessTokenWithAkSk(@NonNull Pigeon.InitWithAkSkRequestData request, Pigeon.Result<Pigeon.InitResponseData> result) {
+        //noinspection deprecation
+        OCR.getInstance(context).initAccessTokenWithAkSk(
+                new OnResultListener<AccessToken>() {
+                    @Override
+                    public void onResult(AccessToken accessToken) {
+                        handleInitResult(accessToken, result);
+                    }
+
+                    @Override
+                    public void onError(OCRError ocrError) {
+                        handleInitError(ocrError, result);
+                    }
+                }, context, request.getAk(), request.getSk());
     }
 
     @Override
-    public void recognizeBankCard() {
-        BaiduOcrPlugin.log("开始银行卡扫描");
+    public void initAccessToken(Pigeon.Result<Pigeon.InitResponseData> result) {
+        OCR.getInstance(getApplicationContext()).initAccessToken(new OnResultListener<AccessToken>() {
+            @Override
+            public void onResult(AccessToken accessToken) {
+                handleInitResult(accessToken, result);
+            }
+
+            @Override
+            public void onError(OCRError ocrError) {
+                handleInitError(ocrError, result);
+            }
+        }, getApplicationContext());
+    }
+
+    private void handleInitError(OCRError ocrError, Pigeon.Result<Pigeon.InitResponseData> result) {
+        Pigeon.InitResponseData res = new Pigeon.InitResponseData();
+        res.setIsSuccess(false);
+        res.setOcrError(new Pigeon.OCRErrorResponseData.Builder()
+                .setErrorCode((long) ocrError.getErrorCode())
+                .setErrorMessage(ocrError.getMessage())
+                .build());
+        result.success(res);
+    }
+
+    private void handleInitResult(AccessToken accessToken, Pigeon.Result<Pigeon.InitResponseData> result) {
+        Pigeon.InitResponseData res = new Pigeon.InitResponseData();
+        res.setIsSuccess(true);
+        res.setAccessToken(accessToken.getAccessToken());
+        result.success(res);
+    }
+
+    private Context getApplicationContext() {
+        return context;
+    }
+
+    @Override
+    public void recognizeGeneralBasic() {
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
-        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_BANK_CARD);
-        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_BANKCARD);
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_GENERAL_BASIC);
+    }
+
+    @Override
+    public void recognizeAccurateBasic() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_ACCURATE_BASIC);
+    }
+
+    @Override
+    public void recognizeGeneral() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_GENERAL);
+    }
+
+    @Override
+    public void recognizeAccurate() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_ACCURATE);
+    }
+
+    @Override
+    public void recognizeGeneralEnhanced() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_GENERAL_ENHANCED);
+
+    }
+
+    @Override
+    public void recognizeWebimage() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_GENERAL_WEBIMAGE);
+    }
+
+    @Override
+    public void recognizeDrivingLicense() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_DRIVING_LICENSE);
+    }
+
+    @Override
+    public void recognizeVehicleLicense() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_VEHICLE_LICENSE);
+    }
+
+    @Override
+    public void recognizeBusinessLicense() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_BUSINESS_LICENSE);
+    }
+
+    @Override
+    public void recognizeReceipt() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_RECEIPT);
+    }
+
+    @Override
+    public void recognizeVatInvoice() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_VATINVOICE);
+    }
+
+    @Override
+    public void recognizeTaxireceipt() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_TAXIRECEIPT);
+    }
+
+    @Override
+    public void recognizeLicensePlate() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_LICENSE_PLATE);
+    }
+
+    @Override
+    public void recognizeVincode() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_VINCODE);
+    }
+
+    @Override
+    public void recognizeTrainticket() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_TRAINTICKET);
+    }
+
+    @Override
+    public void recognizeNumbers() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_NUMBERS);
+    }
+
+    @Override
+    public void recognizeQrcode() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_QRCODE);
+    }
+
+    @Override
+    public void recoginzeTripTicket() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_TRIP_TICKET);
+    }
+
+    @Override
+    public void recoginzeVihickleSellInvoice() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_CAR_SELL_INVOICE);
+    }
+
+    @Override
+    public void recoginzeVihickleCertificate() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_VIHICLE_SERTIFICATION);
+    }
+
+    @Override
+    public void recoginzeExampleDoc() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_EXAMPLE_DOC_REG);
+    }
+
+    @Override
+    public void recoginzeWrittenText() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_WRITTEN_TEXT);
+    }
+
+    @Override
+    public void recognizePassport() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_PASSPORT);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_PASSPORT);
+    }
+
+    @Override
+    public void recoginzeHuKouPage() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_HUKOU_PAGE);
+    }
+
+    @Override
+    public void recoginzeNormalMachineInvoice() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_NORMAL_MACHINE_INVOICE);
+    }
+
+    @Override
+    public void recognizeCustom() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_CUSTOM);
+    }
+
+    @Override
+    public void recoginzeweightnote() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_WEIGHT_NOTE);
+    }
+
+    @Override
+    public void recoginzemedicaldetail() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_MEDICAL_DETAIL);
+    }
+
+    @Override
+    public void recoginzeonlinetaxiitinerary() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_ONLINE_TAXI_ITINERARY);
+    }
+
+    @Override
+    public void recognizeIdCardFrontNative() {
+        this.recognizeIdCardNative(CameraActivity.CONTENT_TYPE_ID_CARD_FRONT);
+    }
+
+    @Override
+    public void recognizeIdCardBackNative() {
+        this.recognizeIdCardNative(CameraActivity.CONTENT_TYPE_ID_CARD_BACK);
     }
 
     // 身份证正反面
     private void recognizeIdCardNative(String activityContentType) {
-        BaiduOcrPlugin.log("recognizeIdCard, idCardSide: " + activityContentType);
         // initCameraNative();
         // KEY_NATIVE_MANUAL 设置了之后 CameraActivity 中不再自动初始化和释放模型
         // 请手动使用CameraNativeHelper初始化和释放模型
@@ -120,10 +379,18 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
         intent.putExtra(CameraActivity.KEY_NATIVE_ENABLE, true);
         intent.putExtra(CameraActivity.KEY_NATIVE_MANUAL, false);
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, activityContentType);
-
         intent.putExtra(CameraActivity.KEY_NATIVE_TOKEN, OCR.getInstance(context).getLicense());
 
         activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_CAMERA);
+    }
+
+    @Override
+    public void recognizeBankCard() {
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_BANK_CARD);
+
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_BANKCARD);
     }
 
 }

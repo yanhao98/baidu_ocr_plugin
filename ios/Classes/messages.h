@@ -9,6 +9,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @class InitWithAkSkRequestData;
+@class InitResponseData;
+@class OCRErrorResponseData;
 
 @interface InitWithAkSkRequestData : NSObject
 + (instancetype)makeWithAk:(nullable NSString *)ak
@@ -17,15 +19,59 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy, nullable) NSString * sk;
 @end
 
+@interface InitResponseData : NSObject
++ (instancetype)makeWithIsSuccess:(nullable NSNumber *)isSuccess
+    accessToken:(nullable NSString *)accessToken
+    ocrError:(nullable OCRErrorResponseData *)ocrError;
+@property(nonatomic, strong, nullable) NSNumber * isSuccess;
+@property(nonatomic, copy, nullable) NSString * accessToken;
+@property(nonatomic, strong, nullable) OCRErrorResponseData * ocrError;
+@end
+
+@interface OCRErrorResponseData : NSObject
++ (instancetype)makeWithErrorCode:(nullable NSNumber *)errorCode
+    errorMessage:(nullable NSString *)errorMessage;
+@property(nonatomic, strong, nullable) NSNumber * errorCode;
+@property(nonatomic, copy, nullable) NSString * errorMessage;
+@end
+
 /// The codec used by OcrHostApi.
 NSObject<FlutterMessageCodec> *OcrHostApiGetCodec(void);
 
 @protocol OcrHostApi
-- (void)initWithAkSkRequest:(InitWithAkSkRequestData *)request completion:(void(^)(FlutterError *_Nullable))completion;
+- (void)initAccessTokenWithAkSkRequest:(InitWithAkSkRequestData *)request completion:(void(^)(InitResponseData *_Nullable, FlutterError *_Nullable))completion;
+- (void)initAccessTokenWithCompletion:(void(^)(InitResponseData *_Nullable, FlutterError *_Nullable))completion;
+- (void)recognizeGeneralBasicWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeAccurateBasicWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeGeneralWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeAccurateWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeGeneralEnhancedWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeWebimageWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeDrivingLicenseWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeVehicleLicenseWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeBusinessLicenseWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeReceiptWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeVatInvoiceWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeTaxireceiptWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeLicensePlateWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeVincodeWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeTrainticketWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeNumbersWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeQrcodeWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeTripTicketWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeVihickleSellInvoiceWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeVihickleCertificateWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeExampleDocWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeWrittenTextWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizePassportWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeHuKouPageWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeNormalMachineInvoiceWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recognizeCustomWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeweightnoteWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzemedicaldetailWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)recoginzeonlinetaxiitineraryWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (void)recognizeIdCardFrontNativeWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (void)recognizeIdCardBackNativeWithError:(FlutterError *_Nullable *_Nonnull)error;
-- (void)initCameraNativeWithError:(FlutterError *_Nullable *_Nonnull)error;
-- (void)releaseCameraNativeWithError:(FlutterError *_Nullable *_Nonnull)error;
 - (void)recognizeBankCardWithError:(FlutterError *_Nullable *_Nonnull)error;
 @end
 
@@ -37,7 +83,7 @@ NSObject<FlutterMessageCodec> *RecognizeListenerFlutterApiGetCodec(void);
 @interface RecognizeListenerFlutterApi : NSObject
 - (instancetype)initWithBinaryMessenger:(id<FlutterBinaryMessenger>)binaryMessenger;
 - (void)onReceivedStartWithCompletion:(void(^)(NSError *_Nullable))completion;
-- (void)onReceivedResultResult:(NSString *)result completion:(void(^)(NSError *_Nullable))completion;
-- (void)onReceivedErrorDescription:(NSString *)description completion:(void(^)(NSError *_Nullable))completion;
+- (void)onReceivedResultJsonResult:(NSString *)jsonResult completion:(void(^)(NSError *_Nullable))completion;
+- (void)onReceivedErrorOcrErrorResponseData:(OCRErrorResponseData *)ocrErrorResponseData completion:(void(^)(NSError *_Nullable))completion;
 @end
 NS_ASSUME_NONNULL_END

@@ -36,6 +36,16 @@ static id GetNullableObjectAtIndex(NSArray* array, NSInteger key) {
 + (nullable InitWithAkSkRequestData *)nullableFromMap:(NSDictionary *)dict;
 - (NSDictionary *)toMap;
 @end
+@interface InitResponseData ()
++ (InitResponseData *)fromMap:(NSDictionary *)dict;
++ (nullable InitResponseData *)nullableFromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
+@interface OCRErrorResponseData ()
++ (OCRErrorResponseData *)fromMap:(NSDictionary *)dict;
++ (nullable OCRErrorResponseData *)nullableFromMap:(NSDictionary *)dict;
+- (NSDictionary *)toMap;
+@end
 
 @implementation InitWithAkSkRequestData
 + (instancetype)makeWithAk:(nullable NSString *)ak
@@ -60,6 +70,56 @@ static id GetNullableObjectAtIndex(NSArray* array, NSInteger key) {
 }
 @end
 
+@implementation InitResponseData
++ (instancetype)makeWithIsSuccess:(nullable NSNumber *)isSuccess
+    accessToken:(nullable NSString *)accessToken
+    ocrError:(nullable OCRErrorResponseData *)ocrError {
+  InitResponseData* pigeonResult = [[InitResponseData alloc] init];
+  pigeonResult.isSuccess = isSuccess;
+  pigeonResult.accessToken = accessToken;
+  pigeonResult.ocrError = ocrError;
+  return pigeonResult;
+}
++ (InitResponseData *)fromMap:(NSDictionary *)dict {
+  InitResponseData *pigeonResult = [[InitResponseData alloc] init];
+  pigeonResult.isSuccess = GetNullableObject(dict, @"isSuccess");
+  pigeonResult.accessToken = GetNullableObject(dict, @"accessToken");
+  pigeonResult.ocrError = [OCRErrorResponseData nullableFromMap:GetNullableObject(dict, @"ocrError")];
+  return pigeonResult;
+}
++ (nullable InitResponseData *)nullableFromMap:(NSDictionary *)dict { return (dict) ? [InitResponseData fromMap:dict] : nil; }
+- (NSDictionary *)toMap {
+  return @{
+    @"isSuccess" : (self.isSuccess ?: [NSNull null]),
+    @"accessToken" : (self.accessToken ?: [NSNull null]),
+    @"ocrError" : (self.ocrError ? [self.ocrError toMap] : [NSNull null]),
+  };
+}
+@end
+
+@implementation OCRErrorResponseData
++ (instancetype)makeWithErrorCode:(nullable NSNumber *)errorCode
+    errorMessage:(nullable NSString *)errorMessage {
+  OCRErrorResponseData* pigeonResult = [[OCRErrorResponseData alloc] init];
+  pigeonResult.errorCode = errorCode;
+  pigeonResult.errorMessage = errorMessage;
+  return pigeonResult;
+}
++ (OCRErrorResponseData *)fromMap:(NSDictionary *)dict {
+  OCRErrorResponseData *pigeonResult = [[OCRErrorResponseData alloc] init];
+  pigeonResult.errorCode = GetNullableObject(dict, @"errorCode");
+  pigeonResult.errorMessage = GetNullableObject(dict, @"errorMessage");
+  return pigeonResult;
+}
++ (nullable OCRErrorResponseData *)nullableFromMap:(NSDictionary *)dict { return (dict) ? [OCRErrorResponseData fromMap:dict] : nil; }
+- (NSDictionary *)toMap {
+  return @{
+    @"errorCode" : (self.errorCode ?: [NSNull null]),
+    @"errorMessage" : (self.errorMessage ?: [NSNull null]),
+  };
+}
+@end
+
 @interface OcrHostApiCodecReader : FlutterStandardReader
 @end
 @implementation OcrHostApiCodecReader
@@ -67,7 +127,13 @@ static id GetNullableObjectAtIndex(NSArray* array, NSInteger key) {
 {
   switch (type) {
     case 128:     
+      return [InitResponseData fromMap:[self readValue]];
+    
+    case 129:     
       return [InitWithAkSkRequestData fromMap:[self readValue]];
+    
+    case 130:     
+      return [OCRErrorResponseData fromMap:[self readValue]];
     
     default:    
       return [super readValueOfType:type];
@@ -81,8 +147,16 @@ static id GetNullableObjectAtIndex(NSArray* array, NSInteger key) {
 @implementation OcrHostApiCodecWriter
 - (void)writeValue:(id)value 
 {
-  if ([value isKindOfClass:[InitWithAkSkRequestData class]]) {
+  if ([value isKindOfClass:[InitResponseData class]]) {
     [self writeByte:128];
+    [self writeValue:[value toMap]];
+  } else 
+  if ([value isKindOfClass:[InitWithAkSkRequestData class]]) {
+    [self writeByte:129];
+    [self writeValue:[value toMap]];
+  } else 
+  if ([value isKindOfClass:[OCRErrorResponseData class]]) {
+    [self writeByte:130];
     [self writeValue:[value toMap]];
   } else 
 {
@@ -117,17 +191,557 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:@"dev.flutter.pigeon.OcrHostApi.initWithAkSk"
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.initAccessTokenWithAkSk"
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()        ];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(initWithAkSkRequest:completion:)], @"OcrHostApi api (%@) doesn't respond to @selector(initWithAkSkRequest:completion:)", api);
+      NSCAssert([api respondsToSelector:@selector(initAccessTokenWithAkSkRequest:completion:)], @"OcrHostApi api (%@) doesn't respond to @selector(initAccessTokenWithAkSkRequest:completion:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
         NSArray *args = message;
         InitWithAkSkRequestData *arg_request = GetNullableObjectAtIndex(args, 0);
-        [api initWithAkSkRequest:arg_request completion:^(FlutterError *_Nullable error) {
-          callback(wrapResult(nil, error));
+        [api initAccessTokenWithAkSkRequest:arg_request completion:^(InitResponseData *_Nullable output, FlutterError *_Nullable error) {
+          callback(wrapResult(output, error));
         }];
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.initAccessToken"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(initAccessTokenWithCompletion:)], @"OcrHostApi api (%@) doesn't respond to @selector(initAccessTokenWithCompletion:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        [api initAccessTokenWithCompletion:^(InitResponseData *_Nullable output, FlutterError *_Nullable error) {
+          callback(wrapResult(output, error));
+        }];
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeGeneralBasic"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeGeneralBasicWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralBasicWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeGeneralBasicWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeAccurateBasic"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeAccurateBasicWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeAccurateBasicWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeAccurateBasicWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeGeneral"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeGeneralWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeGeneralWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeAccurate"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeAccurateWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeAccurateWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeAccurateWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeGeneralEnhanced"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeGeneralEnhancedWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralEnhancedWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeGeneralEnhancedWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeWebimage"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeWebimageWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeWebimageWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeWebimageWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeDrivingLicense"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeDrivingLicenseWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeDrivingLicenseWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeDrivingLicenseWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeVehicleLicense"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeVehicleLicenseWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVehicleLicenseWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeVehicleLicenseWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeBusinessLicense"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeBusinessLicenseWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeBusinessLicenseWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeBusinessLicenseWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeReceipt"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeReceiptWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeReceiptWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeReceiptWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeVatInvoice"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeVatInvoiceWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVatInvoiceWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeVatInvoiceWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeTaxireceipt"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeTaxireceiptWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeTaxireceiptWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeTaxireceiptWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeLicensePlate"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeLicensePlateWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeLicensePlateWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeLicensePlateWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeVincode"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeVincodeWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVincodeWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeVincodeWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeTrainticket"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeTrainticketWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeTrainticketWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeTrainticketWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeNumbers"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeNumbersWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeNumbersWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeNumbersWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeQrcode"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeQrcodeWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeQrcodeWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeQrcodeWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeTripTicket"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeTripTicketWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeTripTicketWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeTripTicketWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeVihickleSellInvoice"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeVihickleSellInvoiceWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeVihickleSellInvoiceWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeVihickleSellInvoiceWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeVihickleCertificate"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeVihickleCertificateWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeVihickleCertificateWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeVihickleCertificateWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeExampleDoc"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeExampleDocWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeExampleDocWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeExampleDocWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeWrittenText"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeWrittenTextWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeWrittenTextWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeWrittenTextWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizePassport"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizePassportWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizePassportWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizePassportWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeHuKouPage"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeHuKouPageWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeHuKouPageWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeHuKouPageWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeNormalMachineInvoice"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeNormalMachineInvoiceWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeNormalMachineInvoiceWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeNormalMachineInvoiceWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeCustom"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recognizeCustomWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeCustomWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recognizeCustomWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeweightnote"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeweightnoteWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeweightnoteWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeweightnoteWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzemedicaldetail"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzemedicaldetailWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzemedicaldetailWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzemedicaldetailWithError:&error];
+        callback(wrapResult(nil, error));
+      }];
+    }
+    else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.OcrHostApi.recoginzeonlinetaxiitinerary"
+        binaryMessenger:binaryMessenger
+        codec:OcrHostApiGetCodec()        ];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(recoginzeonlinetaxiitineraryWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeonlinetaxiitineraryWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        [api recoginzeonlinetaxiitineraryWithError:&error];
+        callback(wrapResult(nil, error));
       }];
     }
     else {
@@ -173,42 +787,6 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
   {
     FlutterBasicMessageChannel *channel =
       [[FlutterBasicMessageChannel alloc]
-        initWithName:@"dev.flutter.pigeon.OcrHostApi.initCameraNative"
-        binaryMessenger:binaryMessenger
-        codec:OcrHostApiGetCodec()        ];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(initCameraNativeWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(initCameraNativeWithError:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FlutterError *error;
-        [api initCameraNativeWithError:&error];
-        callback(wrapResult(nil, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [[FlutterBasicMessageChannel alloc]
-        initWithName:@"dev.flutter.pigeon.OcrHostApi.releaseCameraNative"
-        binaryMessenger:binaryMessenger
-        codec:OcrHostApiGetCodec()        ];
-    if (api) {
-      NSCAssert([api respondsToSelector:@selector(releaseCameraNativeWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(releaseCameraNativeWithError:)", api);
-      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
-        FlutterError *error;
-        [api releaseCameraNativeWithError:&error];
-        callback(wrapResult(nil, error));
-      }];
-    }
-    else {
-      [channel setMessageHandler:nil];
-    }
-  }
-  {
-    FlutterBasicMessageChannel *channel =
-      [[FlutterBasicMessageChannel alloc]
         initWithName:@"dev.flutter.pigeon.OcrHostApi.recognizeBankCard"
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()        ];
@@ -228,11 +806,32 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
 @interface RecognizeListenerFlutterApiCodecReader : FlutterStandardReader
 @end
 @implementation RecognizeListenerFlutterApiCodecReader
+- (nullable id)readValueOfType:(UInt8)type 
+{
+  switch (type) {
+    case 128:     
+      return [OCRErrorResponseData fromMap:[self readValue]];
+    
+    default:    
+      return [super readValueOfType:type];
+    
+  }
+}
 @end
 
 @interface RecognizeListenerFlutterApiCodecWriter : FlutterStandardWriter
 @end
 @implementation RecognizeListenerFlutterApiCodecWriter
+- (void)writeValue:(id)value 
+{
+  if ([value isKindOfClass:[OCRErrorResponseData class]]) {
+    [self writeByte:128];
+    [self writeValue:[value toMap]];
+  } else 
+{
+    [super writeValue:value];
+  }
+}
 @end
 
 @interface RecognizeListenerFlutterApiCodecReaderWriter : FlutterStandardReaderWriter
@@ -280,23 +879,23 @@ NSObject<FlutterMessageCodec> *RecognizeListenerFlutterApiGetCodec() {
     completion(nil);
   }];
 }
-- (void)onReceivedResultResult:(NSString *)arg_result completion:(void(^)(NSError *_Nullable))completion {
+- (void)onReceivedResultJsonResult:(NSString *)arg_jsonResult completion:(void(^)(NSError *_Nullable))completion {
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
       messageChannelWithName:@"dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult"
       binaryMessenger:self.binaryMessenger
       codec:RecognizeListenerFlutterApiGetCodec()];
-  [channel sendMessage:@[arg_result ?: [NSNull null]] reply:^(id reply) {
+  [channel sendMessage:@[arg_jsonResult ?: [NSNull null]] reply:^(id reply) {
     completion(nil);
   }];
 }
-- (void)onReceivedErrorDescription:(NSString *)arg_description completion:(void(^)(NSError *_Nullable))completion {
+- (void)onReceivedErrorOcrErrorResponseData:(OCRErrorResponseData *)arg_ocrErrorResponseData completion:(void(^)(NSError *_Nullable))completion {
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
       messageChannelWithName:@"dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError"
       binaryMessenger:self.binaryMessenger
       codec:RecognizeListenerFlutterApiGetCodec()];
-  [channel sendMessage:@[arg_description ?: [NSNull null]] reply:^(id reply) {
+  [channel sendMessage:@[arg_ocrErrorResponseData ?: [NSNull null]] reply:^(id reply) {
     completion(nil);
   }];
 }
