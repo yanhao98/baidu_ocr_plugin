@@ -1,7 +1,7 @@
 name: baidu_ocr_plugin
-description: 百度文字识别 OCR
+description: BaiduOCR SDK for Flutter. This package aims to support different Flutter targets by relying on the many platforms supported by BaiduOCR with native SDKs.
 repository: https://github.com/yanhao98/baidu_ocr_plugin
-version: 1.0.2
+version: 1.0.3
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
