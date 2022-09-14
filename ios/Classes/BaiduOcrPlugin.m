@@ -82,7 +82,7 @@ void (^_failHandler)(NSError *);
     UIViewController *vc = [AipCaptureCardVC
             ViewControllerWithCardType:CardTypeLocalIdCardBack
                        andImageHandler:^(UIImage *image) {
-                           [self notifyFlutterOfStart];
+                           [self notifyFlutterOfStart:image];
 
                            [[AipOcrService shardService]
                                    detectIdCardBackFromImage:image
@@ -101,7 +101,7 @@ void (^_failHandler)(NSError *);
     UIViewController *vc = [AipCaptureCardVC
             ViewControllerWithCardType:CardTypeLocalIdCardFont
                        andImageHandler:^(UIImage *image) {
-                           [self notifyFlutterOfStart];
+                           [self notifyFlutterOfStart:image];
                            // 不准
                            NSDictionary *options = @{@"detect_risk": @"false"};
 
@@ -120,7 +120,7 @@ void (^_failHandler)(NSError *);
 // 银行卡正面拍照识别
 - (void)recognizeBankCardWithError:(FlutterError **)error {
     UIViewController *vc = [AipCaptureCardVC ViewControllerWithCardType:CardTypeBankCard andImageHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectBankCardFromImage:image
                                                successHandler:_successHandler
                                                   failHandler:_failHandler];
@@ -132,9 +132,10 @@ void (^_failHandler)(NSError *);
 }
 
 
+// 通用文字识别
 - (void)recognizeGeneralBasicWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
 
         NSDictionary *options = @{@"language_type": @"CHN_ENG", @"detect_direction": @"true"};
         [[AipOcrService shardService] detectTextBasicFromImage:image
@@ -148,7 +149,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeAccurateBasicWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
 
         NSDictionary *options = @{@"language_type": @"CHN_ENG", @"detect_direction": @"true"};
 
@@ -164,7 +165,7 @@ void (^_failHandler)(NSError *);
 - (void)recognizeGeneralWithError:(FlutterError **)error {
 
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         // 在这个block里，image即为切好的图片，可自行选择如何处理
         NSDictionary *options = @{@"language_type": @"CHN_ENG", @"detect_direction": @"true"};
         [[AipOcrService shardService] detectTextFromImage:image
@@ -178,7 +179,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeAccurateWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         NSDictionary *options = @{@"language_type": @"CHN_ENG", @"detect_direction": @"true"};
         [[AipOcrService shardService] detectTextAccurateFromImage:image
                                                       withOptions:options
@@ -191,7 +192,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeGeneralEnhancedWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         NSDictionary *options = @{@"language_type": @"CHN_ENG", @"detect_direction": @"true"};
         [[AipOcrService shardService] detectTextEnhancedFromImage:image
                                                       withOptions:options
@@ -204,7 +205,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeWebimageWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectWebImageFromImage:image
                                                   withOptions:nil
                                                successHandler:_successHandler
@@ -215,7 +216,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeDrivingLicenseWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectDrivingLicenseFromImage:image
                                                         withOptions:nil
                                                      successHandler:_successHandler
@@ -227,7 +228,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeVehicleLicenseWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         NSDictionary *options = @{@"vehicle_license_side": @"front"};
         [[AipOcrService shardService] detectVehicleLicenseFromImage:image
                                                         withOptions:options
@@ -239,7 +240,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeBusinessLicenseWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectBusinessLicenseFromImage:image
                                                          withOptions:nil
                                                       successHandler:_successHandler
@@ -251,7 +252,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeReceiptWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectReceiptFromImage:image
                                                  withOptions:nil
                                               successHandler:_successHandler
@@ -263,7 +264,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeVatInvoiceWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectValueAddedTaxImage:image
                                                    withOptions:nil
                                                 successHandler:_successHandler
@@ -275,7 +276,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeTaxireceiptWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectTaxiReceiptImage:image
                                                  withOptions:nil
                                               successHandler:_successHandler
@@ -287,7 +288,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeLicensePlateWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectPlateNumberFromImage:image
                                                      withOptions:nil
                                                   successHandler:_successHandler
@@ -299,7 +300,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeVincodeWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectVinCodeImage:image
                                              withOptions:nil
                                           successHandler:_successHandler
@@ -311,7 +312,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeTrainticketWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectTrainTicketImage:image
                                                  withOptions:nil
                                               successHandler:_successHandler
@@ -323,7 +324,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeNumbersWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectNumbersImage:image
                                              withOptions:nil
                                           successHandler:_successHandler
@@ -335,7 +336,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeQrcodeWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] qrcodeImage:image withOptions:nil successHandler:_successHandler failHandler:_failHandler];
 
     }];
@@ -344,7 +345,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeTripTicketWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] airTicketImage:image
                                          withOptions:nil
                                       successHandler:_successHandler
@@ -356,7 +357,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeVihickleSellInvoiceWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] vehicleInvoiceImage:image
                                               withOptions:nil
                                            successHandler:_successHandler
@@ -368,7 +369,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeVihickleCertificateWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] vehicleCertificateImage:image
                                                   withOptions:nil
                                                successHandler:_successHandler
@@ -380,7 +381,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeExampleDocWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] docAnalysisImage:image
                                            withOptions:nil
                                         successHandler:_successHandler
@@ -392,7 +393,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeWrittenTextWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] handwritingImage:image
                                            withOptions:nil
                                         successHandler:_successHandler
@@ -404,7 +405,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizePassportWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] passportImage:image
                                         withOptions:nil
                                      successHandler:_successHandler
@@ -416,7 +417,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeHuKouPageWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] householdRegisterImage:image
                                                  withOptions:nil
                                               successHandler:_successHandler
@@ -428,7 +429,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeNormalMachineInvoiceWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] detectValueAddedTaxImage:image
                                                    withOptions:nil
                                                 successHandler:_successHandler
@@ -440,7 +441,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recognizeCustomWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
 
         NSDictionary *options = @{@"templateSign": @"123"};
         [[AipOcrService shardService] iOCRRecognitionFromImage:image
@@ -454,7 +455,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeweightnoteWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] weightNoteImage:image
                                           withOptions:nil
                                        successHandler:_successHandler
@@ -466,7 +467,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzemedicaldetailWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] medicalDetailImage:image
                                              withOptions:nil
                                           successHandler:_successHandler
@@ -478,7 +479,7 @@ void (^_failHandler)(NSError *);
 
 - (void)recoginzeonlinetaxiitineraryWithError:(FlutterError **)error {
     UIViewController *vc = [AipGeneralVC ViewControllerWithHandler:^(UIImage *image) {
-        [self notifyFlutterOfStart];
+        [self notifyFlutterOfStart:image];
         [[AipOcrService shardService] onlineTaxiItineraryImage:image
                                                    withOptions:nil
                                                 successHandler:_successHandler
@@ -497,14 +498,14 @@ void (^_failHandler)(NSError *);
     return jsonStr ?: @"";
 }
 
-
 // 通知Flutter端开始识别。
-- (void)notifyFlutterOfStart {
+- (void)notifyFlutterOfStart:(UIImage *)image {
     dispatch_async(dispatch_get_main_queue(), ^{
         // 关闭拍照
         [[[UIApplication sharedApplication].keyWindow rootViewController] dismissViewControllerAnimated:YES completion:nil];
     });
-    [self->_flutterApi onReceivedStartWithCompletion:^(NSError *_Nullable _) {
+    FlutterStandardTypedData *_Nonnull imageBytes = [FlutterStandardTypedData typedDataWithBytes:UIImageJPEGRepresentation(image, 1.0f)];
+    [self->_flutterApi onReceivedStartImageBytes:imageBytes completion:^(NSError *error) {
     }];
 }
 

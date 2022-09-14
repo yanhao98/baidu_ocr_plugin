@@ -103,7 +103,7 @@ abstract class OcrHostApi {
 
 @FlutterApi()
 abstract class RecognizeListenerFlutterApi {
-  void onReceivedStart();
+  void onReceivedStart(Uint8List imageBytes);
 
   void onReceivedResult(String jsonResult);
 

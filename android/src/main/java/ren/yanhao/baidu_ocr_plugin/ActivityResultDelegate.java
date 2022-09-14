@@ -283,7 +283,11 @@ public class ActivityResultDelegate implements PluginRegistry.ActivityResultList
 
     // 通知flutter识别开始。
     private void notifyFlutterOfStart() {
-        flutterApi.onReceivedStart(reply -> {
+        File imageFile = FileUtil.getSaveFile(ctx);
+        byte[] raw = com.baidu.ocr.sdk.tool.FileUtil.reaFileFromSDcard(imageFile.getAbsolutePath());
+//        final String img = Base64Util.byte2String(raw);
+
+        flutterApi.onReceivedStart(raw, reply -> {
         });
     }
 

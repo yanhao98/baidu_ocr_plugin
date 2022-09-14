@@ -95,31 +95,34 @@ class _OcrHostApiCodec extends StandardMessageCodec {
     if (value is InitResponseData) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else if (value is InitWithAkSkRequestData) {
+    } else 
+    if (value is InitWithAkSkRequestData) {
       buffer.putUint8(129);
       writeValue(buffer, value.encode());
-    } else if (value is OCRErrorResponseData) {
+    } else 
+    if (value is OCRErrorResponseData) {
       buffer.putUint8(130);
       writeValue(buffer, value.encode());
-    } else {
+    } else 
+{
       super.writeValue(buffer, value);
     }
   }
-
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:
+      case 128:       
         return InitResponseData.decode(readValue(buffer)!);
-
-      case 129:
+      
+      case 129:       
         return InitWithAkSkRequestData.decode(readValue(buffer)!);
-
-      case 130:
+      
+      case 130:       
         return OCRErrorResponseData.decode(readValue(buffer)!);
-
-      default:
+      
+      default:      
         return super.readValueOfType(type, buffer);
+      
     }
   }
 }
@@ -128,18 +131,15 @@ class OcrHostApi {
   /// Constructor for [OcrHostApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
   /// BinaryMessenger will be used which routes to the host platform.
-  OcrHostApi({BinaryMessenger? binaryMessenger})
-      : _binaryMessenger = binaryMessenger;
+  OcrHostApi({BinaryMessenger? binaryMessenger}) : _binaryMessenger = binaryMessenger;
 
   final BinaryMessenger? _binaryMessenger;
 
   static const MessageCodec<Object?> codec = _OcrHostApiCodec();
 
-  Future<InitResponseData?> initAccessTokenWithAkSk(
-      InitWithAkSkRequestData arg_request) async {
+  Future<InitResponseData?> initAccessTokenWithAkSk(InitWithAkSkRequestData arg_request) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.initAccessTokenWithAkSk', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.initAccessTokenWithAkSk', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(<Object?>[arg_request]) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -148,8 +148,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -162,8 +161,7 @@ class OcrHostApi {
 
   Future<InitResponseData?> initAccessToken() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.initAccessToken', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.initAccessToken', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -172,8 +170,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -186,8 +183,7 @@ class OcrHostApi {
 
   Future<void> recognizeGeneralBasic() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeGeneralBasic', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeGeneralBasic', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -196,8 +192,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -210,8 +205,7 @@ class OcrHostApi {
 
   Future<void> recognizeAccurateBasic() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeAccurateBasic', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeAccurateBasic', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -220,8 +214,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -234,8 +227,7 @@ class OcrHostApi {
 
   Future<void> recognizeGeneral() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeGeneral', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeGeneral', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -244,8 +236,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -258,8 +249,7 @@ class OcrHostApi {
 
   Future<void> recognizeAccurate() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeAccurate', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeAccurate', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -268,8 +258,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -282,8 +271,7 @@ class OcrHostApi {
 
   Future<void> recognizeGeneralEnhanced() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeGeneralEnhanced', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeGeneralEnhanced', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -292,8 +280,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -306,8 +293,7 @@ class OcrHostApi {
 
   Future<void> recognizeWebimage() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeWebimage', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeWebimage', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -316,8 +302,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -330,8 +315,7 @@ class OcrHostApi {
 
   Future<void> recognizeDrivingLicense() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeDrivingLicense', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeDrivingLicense', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -340,8 +324,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -354,8 +337,7 @@ class OcrHostApi {
 
   Future<void> recognizeVehicleLicense() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeVehicleLicense', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeVehicleLicense', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -364,8 +346,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -378,8 +359,7 @@ class OcrHostApi {
 
   Future<void> recognizeBusinessLicense() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeBusinessLicense', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeBusinessLicense', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -388,8 +368,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -402,8 +381,7 @@ class OcrHostApi {
 
   Future<void> recognizeReceipt() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeReceipt', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeReceipt', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -412,8 +390,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -426,8 +403,7 @@ class OcrHostApi {
 
   Future<void> recognizeVatInvoice() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeVatInvoice', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeVatInvoice', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -436,8 +412,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -450,8 +425,7 @@ class OcrHostApi {
 
   Future<void> recognizeTaxireceipt() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeTaxireceipt', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeTaxireceipt', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -460,8 +434,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -474,8 +447,7 @@ class OcrHostApi {
 
   Future<void> recognizeLicensePlate() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeLicensePlate', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeLicensePlate', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -484,8 +456,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -498,8 +469,7 @@ class OcrHostApi {
 
   Future<void> recognizeVincode() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeVincode', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeVincode', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -508,8 +478,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -522,8 +491,7 @@ class OcrHostApi {
 
   Future<void> recognizeTrainticket() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeTrainticket', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeTrainticket', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -532,8 +500,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -546,8 +513,7 @@ class OcrHostApi {
 
   Future<void> recognizeNumbers() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeNumbers', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeNumbers', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -556,8 +522,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -570,8 +535,7 @@ class OcrHostApi {
 
   Future<void> recognizeQrcode() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeQrcode', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeQrcode', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -580,8 +544,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -594,8 +557,7 @@ class OcrHostApi {
 
   Future<void> recoginzeTripTicket() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeTripTicket', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeTripTicket', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -604,8 +566,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -618,8 +579,7 @@ class OcrHostApi {
 
   Future<void> recoginzeVihickleSellInvoice() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeVihickleSellInvoice', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeVihickleSellInvoice', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -628,8 +588,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -642,8 +601,7 @@ class OcrHostApi {
 
   Future<void> recoginzeVihickleCertificate() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeVihickleCertificate', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeVihickleCertificate', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -652,8 +610,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -666,8 +623,7 @@ class OcrHostApi {
 
   Future<void> recoginzeExampleDoc() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeExampleDoc', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeExampleDoc', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -676,8 +632,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -690,8 +645,7 @@ class OcrHostApi {
 
   Future<void> recoginzeWrittenText() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeWrittenText', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeWrittenText', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -700,8 +654,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -714,8 +667,7 @@ class OcrHostApi {
 
   Future<void> recognizePassport() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizePassport', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizePassport', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -724,8 +676,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -738,8 +689,7 @@ class OcrHostApi {
 
   Future<void> recoginzeHuKouPage() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeHuKouPage', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeHuKouPage', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -748,8 +698,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -762,8 +711,7 @@ class OcrHostApi {
 
   Future<void> recoginzeNormalMachineInvoice() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeNormalMachineInvoice', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeNormalMachineInvoice', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -772,8 +720,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -786,8 +733,7 @@ class OcrHostApi {
 
   Future<void> recognizeCustom() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeCustom', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeCustom', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -796,8 +742,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -810,8 +755,7 @@ class OcrHostApi {
 
   Future<void> recoginzeweightnote() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeweightnote', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeweightnote', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -820,8 +764,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -834,8 +777,7 @@ class OcrHostApi {
 
   Future<void> recoginzemedicaldetail() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzemedicaldetail', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzemedicaldetail', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -844,8 +786,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -858,8 +799,7 @@ class OcrHostApi {
 
   Future<void> recoginzeonlinetaxiitinerary() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recoginzeonlinetaxiitinerary', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recoginzeonlinetaxiitinerary', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -868,8 +808,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -882,8 +821,7 @@ class OcrHostApi {
 
   Future<void> recognizeIdCardFrontNative() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeIdCardFrontNative', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeIdCardFrontNative', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -892,8 +830,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -906,8 +843,7 @@ class OcrHostApi {
 
   Future<void> recognizeIdCardBackNative() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeIdCardBackNative', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeIdCardBackNative', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -916,8 +852,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -930,8 +865,7 @@ class OcrHostApi {
 
   Future<void> recognizeBankCard() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.OcrHostApi.recognizeBankCard', codec,
-        binaryMessenger: _binaryMessenger);
+        'dev.flutter.pigeon.OcrHostApi.recognizeBankCard', codec, binaryMessenger: _binaryMessenger);
     final Map<Object?, Object?>? replyMap =
         await channel.send(null) as Map<Object?, Object?>?;
     if (replyMap == null) {
@@ -940,8 +874,7 @@ class OcrHostApi {
         message: 'Unable to establish connection on channel.',
       );
     } else if (replyMap['error'] != null) {
-      final Map<Object?, Object?> error =
-          (replyMap['error'] as Map<Object?, Object?>?)!;
+      final Map<Object?, Object?> error = (replyMap['error'] as Map<Object?, Object?>?)!;
       throw PlatformException(
         code: (error['code'] as String?)!,
         message: error['message'] as String?,
@@ -960,62 +893,57 @@ class _RecognizeListenerFlutterApiCodec extends StandardMessageCodec {
     if (value is OCRErrorResponseData) {
       buffer.putUint8(128);
       writeValue(buffer, value.encode());
-    } else {
+    } else 
+{
       super.writeValue(buffer, value);
     }
   }
-
   @override
   Object? readValueOfType(int type, ReadBuffer buffer) {
     switch (type) {
-      case 128:
+      case 128:       
         return OCRErrorResponseData.decode(readValue(buffer)!);
-
-      default:
+      
+      default:      
         return super.readValueOfType(type, buffer);
+      
     }
   }
 }
-
 abstract class RecognizeListenerFlutterApi {
-  static const MessageCodec<Object?> codec =
-      _RecognizeListenerFlutterApiCodec();
+  static const MessageCodec<Object?> codec = _RecognizeListenerFlutterApiCodec();
 
-  void onReceivedStart();
+  void onReceivedStart(Uint8List imageBytes);
   void onReceivedResult(String jsonResult);
   void onReceivedError(OCRErrorResponseData ocrErrorResponseData);
-  static void setup(RecognizeListenerFlutterApi? api,
-      {BinaryMessenger? binaryMessenger}) {
+  static void setup(RecognizeListenerFlutterApi? api, {BinaryMessenger? binaryMessenger}) {
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart',
-          codec,
-          binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart', codec, binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          // ignore message
-          api.onReceivedStart();
+          assert(message != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final Uint8List? arg_imageBytes = (args[0] as Uint8List?);
+          assert(arg_imageBytes != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart was null, expected non-null Uint8List.');
+          api.onReceivedStart(arg_imageBytes!);
           return;
         });
       }
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult',
-          codec,
-          binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult', codec, binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult was null.');
+          assert(message != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult was null.');
           final List<Object?> args = (message as List<Object?>?)!;
           final String? arg_jsonResult = (args[0] as String?);
-          assert(arg_jsonResult != null,
-              'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult was null, expected non-null String.');
+          assert(arg_jsonResult != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedResult was null, expected non-null String.');
           api.onReceivedResult(arg_jsonResult!);
           return;
         });
@@ -1023,20 +951,15 @@ abstract class RecognizeListenerFlutterApi {
     }
     {
       final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError',
-          codec,
-          binaryMessenger: binaryMessenger);
+          'dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError', codec, binaryMessenger: binaryMessenger);
       if (api == null) {
         channel.setMessageHandler(null);
       } else {
         channel.setMessageHandler((Object? message) async {
-          assert(message != null,
-              'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError was null.');
+          assert(message != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError was null.');
           final List<Object?> args = (message as List<Object?>?)!;
-          final OCRErrorResponseData? arg_ocrErrorResponseData =
-              (args[0] as OCRErrorResponseData?);
-          assert(arg_ocrErrorResponseData != null,
-              'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError was null, expected non-null OCRErrorResponseData.');
+          final OCRErrorResponseData? arg_ocrErrorResponseData = (args[0] as OCRErrorResponseData?);
+          assert(arg_ocrErrorResponseData != null, 'Argument for dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedError was null, expected non-null OCRErrorResponseData.');
           api.onReceivedError(arg_ocrErrorResponseData!);
           return;
         });

@@ -869,13 +869,13 @@ NSObject<FlutterMessageCodec> *RecognizeListenerFlutterApiGetCodec() {
   }
   return self;
 }
-- (void)onReceivedStartWithCompletion:(void(^)(NSError *_Nullable))completion {
+- (void)onReceivedStartImageBytes:(FlutterStandardTypedData *)arg_imageBytes completion:(void(^)(NSError *_Nullable))completion {
   FlutterBasicMessageChannel *channel =
     [FlutterBasicMessageChannel
       messageChannelWithName:@"dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart"
       binaryMessenger:self.binaryMessenger
       codec:RecognizeListenerFlutterApiGetCodec()];
-  [channel sendMessage:nil reply:^(id reply) {
+  [channel sendMessage:@[arg_imageBytes ?: [NSNull null]] reply:^(id reply) {
     completion(nil);
   }];
 }

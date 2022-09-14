@@ -48,8 +48,9 @@ Android SDK版本：`2.0.1`
    
    BaiduOcrPlugin.instance.recognizeIdCardFrontNative(
      RecognizeCallbackHandler(
-       onStart: () {
+       onStart: (Uint8List imageBytes) {
          // 即拍照结束后，发送网络请求时，通知此回调。
+         // imageBytes为图片的二进制数据，可自行选择如何处理
          print("开始识别");
        },
        onResult: (String jsonRes) {
@@ -74,6 +75,7 @@ Android SDK版本：`2.0.1`
 <img src="https://user-images.githubusercontent.com/37316281/189598858-eee4717a-e2b8-46e2-9ea1-8e3d0fe56598.jpg" alt="IMG_6845" style="width:50%;" />
 <img src="https://user-images.githubusercontent.com/37316281/189598869-d948b585-138d-4438-94f6-a75a7b5e90f7.jpg" alt="IMG_6846" style="width:50%;" />
 </div>
+
 ## 资源
 
 https://ai.baidu.com/sdk#ocr

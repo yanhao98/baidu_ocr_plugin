@@ -82,7 +82,7 @@ NSObject<FlutterMessageCodec> *RecognizeListenerFlutterApiGetCodec(void);
 
 @interface RecognizeListenerFlutterApi : NSObject
 - (instancetype)initWithBinaryMessenger:(id<FlutterBinaryMessenger>)binaryMessenger;
-- (void)onReceivedStartWithCompletion:(void(^)(NSError *_Nullable))completion;
+- (void)onReceivedStartImageBytes:(FlutterStandardTypedData *)imageBytes completion:(void(^)(NSError *_Nullable))completion;
 - (void)onReceivedResultJsonResult:(NSString *)jsonResult completion:(void(^)(NSError *_Nullable))completion;
 - (void)onReceivedErrorOcrErrorResponseData:(OCRErrorResponseData *)ocrErrorResponseData completion:(void(^)(NSError *_Nullable))completion;
 @end

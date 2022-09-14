@@ -981,10 +981,10 @@ public class Pigeon {
       return RecognizeListenerFlutterApiCodec.INSTANCE;
     }
 
-    public void onReceivedStart(Reply<Void> callback) {
+    public void onReceivedStart(@NonNull byte[] imageBytesArg, Reply<Void> callback) {
       BasicMessageChannel<Object> channel =
           new BasicMessageChannel<>(binaryMessenger, "dev.flutter.pigeon.RecognizeListenerFlutterApi.onReceivedStart", getCodec());
-      channel.send(null, channelReply -> {
+      channel.send(new ArrayList<Object>(Arrays.asList(imageBytesArg)), channelReply -> {
         callback.reply(null);
       });
     }

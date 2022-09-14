@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'entity/ocr_error.dart';
 import 'pigeon.dart';
 import 'recognize_callback_handler.dart';
@@ -7,8 +9,8 @@ class RecognizeFlutterApiImpl extends RecognizeListenerFlutterApi {
   late RecognizeCallbackHandler callbackHandler;
 
   @override
-  void onReceivedStart() {
-    callbackHandler.onStart.call();
+  void onReceivedStart(Uint8List imageBytes) {
+    callbackHandler.onStart(imageBytes);
   }
 
   @override

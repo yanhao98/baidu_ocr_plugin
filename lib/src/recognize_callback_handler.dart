@@ -1,9 +1,11 @@
+import 'dart:typed_data';
+
 import '../baidu_ocr_plugin.dart';
 
 /// baidu_ocr_plugin 的识别回调。
 class RecognizeCallbackHandler {
   /// 开始识别。网络请求开始时调用。
-  void Function() onStart;
+  void Function(Uint8List imageBytes) onStart;
 
   /// 识别成功。网络返回成功时调用。
   void Function(String jsonRes) onResult;
