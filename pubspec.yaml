@@ -1,7 +1,7 @@
 name: baidu_ocr_plugin
 description: BaiduOCR SDK for Flutter. This package aims to support different Flutter targets by relying on the many platforms supported by BaiduOCR with native SDKs.
 repository: https://github.com/yanhao98/baidu_ocr_plugin
-version: 2.0.1
+version: 2.0.2
 
 environment:
   sdk: ">=2.15.0 <3.0.0"
@@ -15,7 +15,7 @@ dev_dependencies:
   flutter_lints: ^2.0.1
   flutter_test:
     sdk: flutter
-  pigeon: ^4.0.2
+  pigeon: ^4.2.14
 
 flutter:
   plugin:
