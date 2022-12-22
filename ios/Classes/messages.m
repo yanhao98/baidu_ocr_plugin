@@ -225,10 +225,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeGeneralBasicWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralBasicWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeGeneralBasicBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralBasicBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeGeneralBasicWithError:&error];
+        [api recognizeGeneralBasicBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -243,10 +245,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeAccurateBasicWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeAccurateBasicWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeAccurateBasicBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeAccurateBasicBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeAccurateBasicWithError:&error];
+        [api recognizeAccurateBasicBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -261,10 +265,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeGeneralWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeGeneralBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeGeneralWithError:&error];
+        [api recognizeGeneralBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -279,10 +285,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeAccurateWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeAccurateWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeAccurateBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeAccurateBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeAccurateWithError:&error];
+        [api recognizeAccurateBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -297,10 +305,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeGeneralEnhancedWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralEnhancedWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeGeneralEnhancedBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeGeneralEnhancedBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeGeneralEnhancedWithError:&error];
+        [api recognizeGeneralEnhancedBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -315,10 +325,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeWebimageWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeWebimageWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeWebimageBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeWebimageBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeWebimageWithError:&error];
+        [api recognizeWebimageBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -333,10 +345,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeDrivingLicenseWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeDrivingLicenseWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeDrivingLicenseBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeDrivingLicenseBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeDrivingLicenseWithError:&error];
+        [api recognizeDrivingLicenseBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -351,10 +365,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeVehicleLicenseWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVehicleLicenseWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeVehicleLicenseBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVehicleLicenseBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeVehicleLicenseWithError:&error];
+        [api recognizeVehicleLicenseBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -369,10 +385,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeBusinessLicenseWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeBusinessLicenseWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeBusinessLicenseBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeBusinessLicenseBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeBusinessLicenseWithError:&error];
+        [api recognizeBusinessLicenseBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -387,10 +405,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeReceiptWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeReceiptWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeReceiptBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeReceiptBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeReceiptWithError:&error];
+        [api recognizeReceiptBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -405,10 +425,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeVatInvoiceWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVatInvoiceWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeVatInvoiceBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVatInvoiceBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeVatInvoiceWithError:&error];
+        [api recognizeVatInvoiceBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -423,10 +445,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeTaxireceiptWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeTaxireceiptWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeTaxireceiptBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeTaxireceiptBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeTaxireceiptWithError:&error];
+        [api recognizeTaxireceiptBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -441,10 +465,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeLicensePlateWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeLicensePlateWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeLicensePlateBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeLicensePlateBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeLicensePlateWithError:&error];
+        [api recognizeLicensePlateBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -459,10 +485,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeVincodeWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVincodeWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeVincodeBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeVincodeBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeVincodeWithError:&error];
+        [api recognizeVincodeBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -477,10 +505,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeTrainticketWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeTrainticketWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeTrainticketBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeTrainticketBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeTrainticketWithError:&error];
+        [api recognizeTrainticketBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -495,10 +525,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeNumbersWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeNumbersWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeNumbersBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeNumbersBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeNumbersWithError:&error];
+        [api recognizeNumbersBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -513,10 +545,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeQrcodeWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeQrcodeWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeQrcodeBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeQrcodeBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeQrcodeWithError:&error];
+        [api recognizeQrcodeBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -531,10 +565,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeTripTicketWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeTripTicketWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeTripTicketBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeTripTicketBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeTripTicketWithError:&error];
+        [api recoginzeTripTicketBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -549,10 +585,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeVihickleSellInvoiceWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeVihickleSellInvoiceWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeVihickleSellInvoiceBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeVihickleSellInvoiceBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeVihickleSellInvoiceWithError:&error];
+        [api recoginzeVihickleSellInvoiceBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -567,10 +605,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeVihickleCertificateWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeVihickleCertificateWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeVihickleCertificateBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeVihickleCertificateBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeVihickleCertificateWithError:&error];
+        [api recoginzeVihickleCertificateBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -585,10 +625,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeExampleDocWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeExampleDocWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeExampleDocBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeExampleDocBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeExampleDocWithError:&error];
+        [api recoginzeExampleDocBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -603,10 +645,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeWrittenTextWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeWrittenTextWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeWrittenTextBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeWrittenTextBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeWrittenTextWithError:&error];
+        [api recoginzeWrittenTextBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -621,10 +665,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizePassportWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizePassportWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizePassportBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizePassportBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizePassportWithError:&error];
+        [api recognizePassportBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -639,10 +685,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeHuKouPageWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeHuKouPageWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeHuKouPageBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeHuKouPageBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeHuKouPageWithError:&error];
+        [api recoginzeHuKouPageBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -657,10 +705,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeNormalMachineInvoiceWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeNormalMachineInvoiceWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeNormalMachineInvoiceBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeNormalMachineInvoiceBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeNormalMachineInvoiceWithError:&error];
+        [api recoginzeNormalMachineInvoiceBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -675,10 +725,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeCustomWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeCustomWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeCustomBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeCustomBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeCustomWithError:&error];
+        [api recognizeCustomBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -693,10 +745,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeweightnoteWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeweightnoteWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeweightnoteBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeweightnoteBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeweightnoteWithError:&error];
+        [api recoginzeweightnoteBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -711,10 +765,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzemedicaldetailWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzemedicaldetailWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzemedicaldetailBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzemedicaldetailBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzemedicaldetailWithError:&error];
+        [api recoginzemedicaldetailBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -729,10 +785,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recoginzeonlinetaxiitineraryWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeonlinetaxiitineraryWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recoginzeonlinetaxiitineraryBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recoginzeonlinetaxiitineraryBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recoginzeonlinetaxiitineraryWithError:&error];
+        [api recoginzeonlinetaxiitineraryBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
@@ -786,10 +844,12 @@ void OcrHostApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<OcrHos
         binaryMessenger:binaryMessenger
         codec:OcrHostApiGetCodec()];
     if (api) {
-      NSCAssert([api respondsToSelector:@selector(recognizeBankCardWithError:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeBankCardWithError:)", api);
+      NSCAssert([api respondsToSelector:@selector(recognizeBankCardBytes:error:)], @"OcrHostApi api (%@) doesn't respond to @selector(recognizeBankCardBytes:error:)", api);
       [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        NSArray *args = message;
+        FlutterStandardTypedData *arg_bytes = GetNullableObjectAtIndex(args, 0);
         FlutterError *error;
-        [api recognizeBankCardWithError:&error];
+        [api recognizeBankCardBytes:arg_bytes error:&error];
         callback(wrapResult(nil, error));
       }];
     }
