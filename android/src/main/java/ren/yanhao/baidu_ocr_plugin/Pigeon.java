@@ -230,41 +230,41 @@ public class Pigeon {
   public interface OcrHostApi {
     void initAccessTokenWithAkSk(@NonNull InitWithAkSkRequestData request, Result<InitResponseData> result);
     void initAccessToken(Result<InitResponseData> result);
-    void recognizeGeneralBasic();
-    void recognizeAccurateBasic();
-    void recognizeGeneral();
-    void recognizeAccurate();
-    void recognizeGeneralEnhanced();
-    void recognizeWebimage();
-    void recognizeDrivingLicense();
-    void recognizeVehicleLicense();
-    void recognizeBusinessLicense();
-    void recognizeReceipt();
-    void recognizeVatInvoice();
-    void recognizeTaxireceipt();
-    void recognizeLicensePlate();
-    void recognizeVincode();
-    void recognizeTrainticket();
-    void recognizeNumbers();
-    void recognizeQrcode();
-    void recoginzeTripTicket();
-    void recoginzeVihickleSellInvoice();
-    void recoginzeVihickleCertificate();
-    void recoginzeExampleDoc();
-    void recoginzeWrittenText();
-    void recognizePassport();
-    void recoginzeHuKouPage();
-    void recoginzeNormalMachineInvoice();
-    void recognizeCustom();
-    void recoginzeweightnote();
-    void recoginzemedicaldetail();
-    void recoginzeonlinetaxiitinerary();
+    void recognizeGeneralBasic(@Nullable byte[] bytes);
+    void recognizeAccurateBasic(@Nullable byte[] bytes);
+    void recognizeGeneral(@Nullable byte[] bytes);
+    void recognizeAccurate(@Nullable byte[] bytes);
+    void recognizeGeneralEnhanced(@Nullable byte[] bytes);
+    void recognizeWebimage(@Nullable byte[] bytes);
+    void recognizeDrivingLicense(@Nullable byte[] bytes);
+    void recognizeVehicleLicense(@Nullable byte[] bytes);
+    void recognizeBusinessLicense(@Nullable byte[] bytes);
+    void recognizeReceipt(@Nullable byte[] bytes);
+    void recognizeVatInvoice(@Nullable byte[] bytes);
+    void recognizeTaxireceipt(@Nullable byte[] bytes);
+    void recognizeLicensePlate(@Nullable byte[] bytes);
+    void recognizeVincode(@Nullable byte[] bytes);
+    void recognizeTrainticket(@Nullable byte[] bytes);
+    void recognizeNumbers(@Nullable byte[] bytes);
+    void recognizeQrcode(@Nullable byte[] bytes);
+    void recoginzeTripTicket(@Nullable byte[] bytes);
+    void recoginzeVihickleSellInvoice(@Nullable byte[] bytes);
+    void recoginzeVihickleCertificate(@Nullable byte[] bytes);
+    void recoginzeExampleDoc(@Nullable byte[] bytes);
+    void recoginzeWrittenText(@Nullable byte[] bytes);
+    void recognizePassport(@Nullable byte[] bytes);
+    void recoginzeHuKouPage(@Nullable byte[] bytes);
+    void recoginzeNormalMachineInvoice(@Nullable byte[] bytes);
+    void recognizeCustom(@Nullable byte[] bytes);
+    void recoginzeweightnote(@Nullable byte[] bytes);
+    void recoginzemedicaldetail(@Nullable byte[] bytes);
+    void recoginzeonlinetaxiitinerary(@Nullable byte[] bytes);
     /** 身份证正面(本地质量控制) */
     void recognizeIdCardFrontNative();
     /** 身份证反面(本地质量控制) */
     void recognizeIdCardBackNative();
     /** 银行卡识别 */
-    void recognizeBankCard();
+    void recognizeBankCard(@Nullable byte[] bytes);
 
     /** The codec used by OcrHostApi. */
     static MessageCodec<Object> getCodec() {
@@ -342,7 +342,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeGeneralBasic();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeGeneralBasic(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -362,7 +365,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeAccurateBasic();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeAccurateBasic(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -382,7 +388,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeGeneral();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeGeneral(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -402,7 +411,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeAccurate();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeAccurate(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -422,7 +434,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeGeneralEnhanced();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeGeneralEnhanced(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -442,7 +457,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeWebimage();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeWebimage(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -462,7 +480,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeDrivingLicense();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeDrivingLicense(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -482,7 +503,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeVehicleLicense();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeVehicleLicense(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -502,7 +526,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeBusinessLicense();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeBusinessLicense(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -522,7 +549,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeReceipt();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeReceipt(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -542,7 +572,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeVatInvoice();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeVatInvoice(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -562,7 +595,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeTaxireceipt();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeTaxireceipt(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -582,7 +618,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeLicensePlate();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeLicensePlate(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -602,7 +641,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeVincode();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeVincode(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -622,7 +664,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeTrainticket();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeTrainticket(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -642,7 +687,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeNumbers();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeNumbers(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -662,7 +710,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeQrcode();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeQrcode(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -682,7 +733,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeTripTicket();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeTripTicket(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -702,7 +756,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeVihickleSellInvoice();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeVihickleSellInvoice(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -722,7 +779,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeVihickleCertificate();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeVihickleCertificate(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -742,7 +802,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeExampleDoc();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeExampleDoc(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -762,7 +825,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeWrittenText();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeWrittenText(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -782,7 +848,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizePassport();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizePassport(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -802,7 +871,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeHuKouPage();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeHuKouPage(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -822,7 +894,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeNormalMachineInvoice();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeNormalMachineInvoice(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -842,7 +917,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeCustom();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeCustom(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -862,7 +940,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeweightnote();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeweightnote(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -882,7 +963,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzemedicaldetail();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzemedicaldetail(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -902,7 +986,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recoginzeonlinetaxiitinerary();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recoginzeonlinetaxiitinerary(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {
@@ -962,7 +1049,10 @@ public class Pigeon {
           channel.setMessageHandler((message, reply) -> {
             ArrayList wrapped = new ArrayList<>();
             try {
-              api.recognizeBankCard();
+              ArrayList<Object> args = (ArrayList<Object>)message;
+              assert args != null;
+              byte[] bytesArg = (byte[])args.get(0);
+              api.recognizeBankCard(bytesArg);
               wrapped.add(0, null);
             }
             catch (Error | RuntimeException exception) {

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
@@ -15,10 +16,12 @@ import com.baidu.ocr.ui.camera.CameraActivity;
 public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     private final Context context;
     private Activity activity;
+    private final Pigeon.RecognizeListenerFlutterApi flutterApi;
 //    private boolean hasCameraNativeInitialized = false;
 
-    public OcrHostApiImpl(Context context) {
+    public OcrHostApiImpl(Context context, Pigeon.RecognizeListenerFlutterApi flutterApi) {
         this.context = context;
+        this.flutterApi = flutterApi;
     }
 
     public void setActivity(Activity activity) {
@@ -122,7 +125,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeGeneralBasic() {
+    public void recognizeGeneralBasic(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recGeneralBasic(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -130,7 +139,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeAccurateBasic() {
+    public void recognizeAccurateBasic(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recAccurateBasic(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -138,7 +153,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeGeneral() {
+    public void recognizeGeneral(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recGeneral(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -146,7 +167,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeAccurate() {
+    public void recognizeAccurate(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recAccurate(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -154,16 +181,27 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeGeneralEnhanced() {
+    public void recognizeGeneralEnhanced(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recGeneralEnhanced(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
         activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_GENERAL_ENHANCED);
-
     }
 
     @Override
-    public void recognizeWebimage() {
+    public void recognizeWebimage(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recGeneralEnhanced(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -171,7 +209,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeDrivingLicense() {
+    public void recognizeDrivingLicense(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recDrivingLicense(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -179,7 +223,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeVehicleLicense() {
+    public void recognizeVehicleLicense(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recVehicleLicense(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -187,7 +237,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeBusinessLicense() {
+    public void recognizeBusinessLicense(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recBusinessLicense(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -195,7 +251,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeReceipt() {
+    public void recognizeReceipt(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recReceipt(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -203,7 +265,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeVatInvoice() {
+    public void recognizeVatInvoice(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recVatInvoice(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -211,7 +279,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeTaxireceipt() {
+    public void recognizeTaxireceipt(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recTaxireceipt(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -219,7 +293,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeLicensePlate() {
+    public void recognizeLicensePlate(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recLicensePlate(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -227,7 +307,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeVincode() {
+    public void recognizeVincode(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recVincode(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -235,7 +321,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeTrainticket() {
+    public void recognizeTrainticket(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recTrainticket(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -243,7 +335,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeNumbers() {
+    public void recognizeNumbers(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recNumbers(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -251,7 +349,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeQrcode() {
+    public void recognizeQrcode(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recQrcode(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -259,7 +363,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzeTripTicket() {
+    public void recoginzeTripTicket(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recTripTicket(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -267,7 +377,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzeVihickleSellInvoice() {
+    public void recoginzeVihickleSellInvoice(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recVihickleSellInvoice(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -275,7 +391,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzeVihickleCertificate() {
+    public void recoginzeVihickleCertificate(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recVihickleCertificate(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -283,7 +405,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzeExampleDoc() {
+    public void recoginzeExampleDoc(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recExampleDoc(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -291,7 +419,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzeWrittenText() {
+    public void recoginzeWrittenText(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recWrittenText(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -299,7 +433,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizePassport() {
+    public void recognizePassport(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recPassport(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_PASSPORT);
@@ -307,7 +447,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzeHuKouPage() {
+    public void recoginzeHuKouPage(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recHuKouPage(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -315,7 +461,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzeNormalMachineInvoice() {
+    public void recoginzeNormalMachineInvoice(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recNormalMachineInvoice(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -323,15 +475,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeCustom() {
-        Intent intent = new Intent(activity, CameraActivity.class);
-        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
-        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
-        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_CUSTOM);
-    }
+    public void recoginzeweightnote(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recweightnote(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
 
-    @Override
-    public void recoginzeweightnote() {
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -339,7 +489,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzemedicaldetail() {
+    public void recoginzemedicaldetail(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recmedicaldetail(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -347,7 +503,13 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recoginzeonlinetaxiitinerary() {
+    public void recoginzeonlinetaxiitinerary(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.reconlinetaxiitinerary(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
         Intent intent = new Intent(activity, CameraActivity.class);
         intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
         intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
@@ -363,6 +525,7 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     public void recognizeIdCardBackNative() {
         this.recognizeIdCardNative(CameraActivity.CONTENT_TYPE_ID_CARD_BACK);
     }
+
 
     // 身份证正反面
     private void recognizeIdCardNative(String activityContentType) {
@@ -385,12 +548,31 @@ public class OcrHostApiImpl implements Pigeon.OcrHostApi {
     }
 
     @Override
-    public void recognizeBankCard() {
-        Intent intent = new Intent(activity, CameraActivity.class);
-        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
-        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_BANK_CARD);
-
-        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_BANKCARD);
+    public void recognizeBankCard(@Nullable byte[] bytes) {
+        if (bytes == null) {
+            Intent intent = new Intent(activity, CameraActivity.class);
+            intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(context).getAbsolutePath());
+            intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_BANK_CARD);
+            activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_BANKCARD);
+        } else {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recBankCard(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+        }
     }
+
+    @Override
+    public void recognizeCustom(@Nullable byte[] bytes) {
+        if (bytes != null) {
+            FileUtil.saveFile(context, bytes);
+            RecognizeService.recCustom(context, FileUtil.getSaveFile(context).getAbsolutePath(), this.flutterApi);
+            return;
+        }
+
+        Intent intent = new Intent(activity, CameraActivity.class);
+        intent.putExtra(CameraActivity.KEY_OUTPUT_FILE_PATH, FileUtil.getSaveFile(getApplicationContext()).getAbsolutePath());
+        intent.putExtra(CameraActivity.KEY_CONTENT_TYPE, CameraActivity.CONTENT_TYPE_GENERAL);
+        activity.startActivityForResult(intent, PluginDefine.REQUEST_CODE_CUSTOM);
+    }
+
 
 }

@@ -12,59 +12,56 @@ import io.flutter.plugin.common.BinaryMessenger;
  * BaiduOcrPlugin
  */
 public class BaiduOcrPlugin implements FlutterPlugin, ActivityAware {
-  public static final String TAG = "BaiduOcrPlugin";
-  private OcrHostApiImpl ocrHostApi;
-  private ActivityResultDelegate activityResultDelegate;
+    public static final String TAG = "BaiduOcrPlugin";
+    private OcrHostApiImpl ocrHostApi;
+    private ActivityResultDelegate activityResultDelegate;
 
-  @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-    log("onAttachedToEngine");
+    @Override
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+        log("onAttachedToEngine");
 
-    BinaryMessenger binaryMessenger = binding.getBinaryMessenger();
+        BinaryMessenger binaryMessenger = binding.getBinaryMessenger();
+        Pigeon.RecognizeListenerFlutterApi flutterApi = new Pigeon.RecognizeListenerFlutterApi(binaryMessenger);
 
-    this.ocrHostApi = new OcrHostApiImpl(binding.getApplicationContext());
-    Pigeon.OcrHostApi.setup(binaryMessenger, ocrHostApi);
+        this.ocrHostApi = new OcrHostApiImpl(binding.getApplicationContext(), flutterApi);
+        Pigeon.OcrHostApi.setup(binaryMessenger, ocrHostApi);
+        this.activityResultDelegate = new ActivityResultDelegate(flutterApi, binding.getApplicationContext());
+    }
 
-    this.activityResultDelegate = new ActivityResultDelegate(
-        new Pigeon.RecognizeListenerFlutterApi(binaryMessenger),
-        binding.getApplicationContext());
+    @Override
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        log("onDetachedFromEngine");
+    }
 
-  }
+    @Override
+    public void onAttachedToActivity(@NonNull ActivityPluginBinding activityPluginBinding) {
+        log("onAttachedToActivity");
 
-  @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    log("onDetachedFromEngine");
-  }
+        ocrHostApi.setActivity(activityPluginBinding.getActivity());
 
-  @Override
-  public void onAttachedToActivity(@NonNull ActivityPluginBinding activityPluginBinding) {
-    log("onAttachedToActivity");
+        activityPluginBinding.addActivityResultListener(activityResultDelegate);
+    }
 
-    ocrHostApi.setActivity(activityPluginBinding.getActivity());
+    @Override
+    public void onDetachedFromActivityForConfigChanges() {
+        log("onDetachedFromActivityForConfigChanges");
+    }
 
-    activityPluginBinding.addActivityResultListener(activityResultDelegate);
-  }
+    @Override
+    public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
+        log("onReattachedToActivityForConfigChanges");
+    }
 
-  @Override
-  public void onDetachedFromActivityForConfigChanges() {
-    log("onDetachedFromActivityForConfigChanges");
-  }
+    @Override
+    public void onDetachedFromActivity() {
+        log("onDetachedFromActivity");
+    }
 
-  @Override
-  public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-    log("onReattachedToActivityForConfigChanges");
-  }
+    public static void log(String message) {
+        Log.d(TAG, "🍑" + message);
+    }
 
-  @Override
-  public void onDetachedFromActivity() {
-    log("onDetachedFromActivity");
-  }
-
-  public static void log(String message) {
-    Log.d(TAG, "🍑" + message);
-  }
-
-  public static void loge(String message) {
-    Log.e(TAG, "🍑" + message);
-  }
+    public static void loge(String message) {
+        Log.e(TAG, "🍑" + message);
+    }
 }

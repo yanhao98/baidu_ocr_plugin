@@ -13,7 +13,6 @@ public class FileUtil {
         return new File(context.getFilesDir(), "recognize.jpg");
     }
 
-    //  将byte[]保存
     @SuppressWarnings("ResultOfMethodCallIgnored")
     public static void saveFile(Context context, byte[] data) {
         File file = getSaveFile(context);

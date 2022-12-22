@@ -9,11 +9,7 @@ import androidx.annotation.NonNull;
 import com.baidu.ocr.sdk.OCR;
 import com.baidu.ocr.sdk.OnResultListener;
 import com.baidu.ocr.sdk.exception.OCRError;
-import com.baidu.ocr.sdk.model.BankCardParams;
-import com.baidu.ocr.sdk.model.GeneralBasicParams;
-import com.baidu.ocr.sdk.model.GeneralParams;
 import com.baidu.ocr.sdk.model.IDCardParams;
-import com.baidu.ocr.sdk.model.OcrRequestParams;
 import com.baidu.ocr.sdk.model.ResponseResult;
 import com.baidu.ocr.ui.camera.CameraActivity;
 
@@ -40,8 +36,6 @@ public class ActivityResultDelegate implements PluginRegistry.ActivityResultList
             return false;
         }
 
-        notifyFlutterOfStart();
-
         String filePath = FileUtil.getSaveFile(ctx).getAbsolutePath();
 
         switch (requestCode) {
@@ -63,202 +57,129 @@ public class ActivityResultDelegate implements PluginRegistry.ActivityResultList
                 // 设置图像参数压缩质量0-100, 越大图像质量越好但是请求时间越长。 不设置则默认值为20
                 param.setImageQuality(99);
 
+                notifyFlutterOfStart();
                 OCR.getInstance(ctx).recognizeIDCard(param, getListener());
                 // }
                 break;
             }
             case PluginDefine.REQUEST_CODE_BANKCARD: {
-                BankCardParams param = new BankCardParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeBankCard(param, getListener());
+                RecognizeService.recBankCard(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_GENERAL_BASIC: {
-                GeneralBasicParams param = new GeneralBasicParams();
-                param.setDetectDirection(true);
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeGeneralBasic(param, getListener());
+                RecognizeService.recGeneralBasic(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_ACCURATE_BASIC: {
-                GeneralParams param = new GeneralParams();
-                param.setDetectDirection(true);
-                param.setVertexesLocation(true);
-                param.setRecognizeGranularity(GeneralParams.GRANULARITY_SMALL);
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeAccurateBasic(param, getListener());
+                RecognizeService.recAccurateBasic(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_GENERAL: {
-                GeneralParams param = new GeneralParams();
-                param.setDetectDirection(true);
-                param.setVertexesLocation(true);
-                param.setRecognizeGranularity(GeneralParams.GRANULARITY_SMALL);
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeGeneral(param, getListener());
+                RecognizeService.recGeneral(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_ACCURATE: {
-                GeneralParams param = new GeneralParams();
-                param.setDetectDirection(true);
-                param.setVertexesLocation(true);
-                param.setRecognizeGranularity(GeneralParams.GRANULARITY_SMALL);
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeAccurate(param, getListener());
+                RecognizeService.recAccurate(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_GENERAL_ENHANCED: {
-                GeneralBasicParams param = new GeneralBasicParams();
-                param.setDetectDirection(true);
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeGeneralEnhanced(param, getListener());
+                RecognizeService.recGeneralEnhanced(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_GENERAL_WEBIMAGE: {
-                GeneralBasicParams param = new GeneralBasicParams();
-                param.setDetectDirection(true);
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeWebimage(param, getListener());
+                RecognizeService.recWebimage(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_DRIVING_LICENSE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeDrivingLicense(param, getListener());
+                RecognizeService.recDrivingLicense(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_VEHICLE_LICENSE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeVehicleLicense(param, getListener());
+                RecognizeService.recVehicleLicense(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_BUSINESS_LICENSE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeBusinessLicense(param, getListener());
+                RecognizeService.recBusinessLicense(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_RECEIPT: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeReceipt(param, getListener());
+                RecognizeService.recReceipt(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_VATINVOICE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeVatInvoice(param, getListener());
+                RecognizeService.recVatInvoice(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_TAXIRECEIPT: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeTaxireceipt(param, getListener());
+                RecognizeService.recTaxireceipt(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_LICENSE_PLATE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeLicensePlate(param, getListener());
+                RecognizeService.recLicensePlate(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_VINCODE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeVincode(param, getListener());
+                RecognizeService.recVincode(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_TRAINTICKET: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeTrainticket(param, getListener());
+                RecognizeService.recTrainticket(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_NUMBERS: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeNumbers(param, getListener());
+                RecognizeService.recNumbers(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_QRCODE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeQrcode(param, getListener());
+                RecognizeService.recQrcode(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_TRIP_TICKET: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeTripTicket(param, getListener());
+                RecognizeService.recTripTicket(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_CAR_SELL_INVOICE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeVihickleSellInvoice(param, getListener());
+                RecognizeService.recVihickleSellInvoice(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_VIHICLE_SERTIFICATION: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeVihickleCertificate(param, getListener());
+                RecognizeService.recVihickleCertificate(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_EXAMPLE_DOC_REG: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeExampleDoc(param, getListener());
+                RecognizeService.recExampleDoc(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_WRITTEN_TEXT: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeWrittenText(param, getListener());
+                RecognizeService.recWrittenText(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_PASSPORT: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizePassport(param, getListener());
+                RecognizeService.recPassport(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_HUKOU_PAGE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeHuKouPage(param, getListener());
+                RecognizeService.recHuKouPage(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_NORMAL_MACHINE_INVOICE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeNormalMachineInvoice(param, getListener());
-                break;
-            }
-            case PluginDefine.REQUEST_CODE_CUSTOM: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.putParam("templateSign", "");
-                param.putParam("classifierId", 0);
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recognizeCustom(param, getListener());
+                RecognizeService.recNormalMachineInvoice(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_WEIGHT_NOTE: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeweightnote(param, getListener());
+                RecognizeService.recweightnote(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_MEDICAL_DETAIL: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzemedicaldetail(param, getListener());
+                RecognizeService.recmedicaldetail(ctx, filePath, this.flutterApi);
                 break;
             }
             case PluginDefine.REQUEST_CODE_ONLINE_TAXI_ITINERARY: {
-                OcrRequestParams param = new OcrRequestParams();
-                param.setImageFile(new File(filePath));
-                OCR.getInstance(ctx).recoginzeonlinetaxiitinerary(param, getListener());
+                RecognizeService.reconlinetaxiitinerary(ctx, filePath, this.flutterApi);
+                break;
+            }
+            case PluginDefine.REQUEST_CODE_CUSTOM: {
+                RecognizeService.recCustom(ctx, filePath, this.flutterApi);
                 break;
             }
         }

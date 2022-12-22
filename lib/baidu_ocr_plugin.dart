@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'src/entity/ocr_error.dart';
 import 'src/pigeon.dart';
@@ -68,171 +69,197 @@ class BaiduOcrPlugin {
   /// 银行卡识别。
   ///
   /// https://ai.baidu.com/ai-doc/OCR/ak3h7xxg3#%E8%BF%94%E5%9B%9E%E8%AF%B4%E6%98%8E
-  void recognizeBankCard(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeBankCard(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeBankCard();
+    _hostApi.recognizeBankCard(bytes);
   }
 
   /// 通用文字识别。
-  void recognizeGeneralBasic(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeGeneralBasic(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeGeneralBasic();
+    _hostApi.recognizeGeneralBasic(bytes);
   }
 
   /// 通用文字识别(高精度版)
-  void recognizeAccurateBasic(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeAccurateBasic(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeAccurateBasic();
+    _hostApi.recognizeAccurateBasic(bytes);
   }
 
   /// 通用文字识别（含位置信息版）
-  void recognizeGeneral(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeGeneral(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeGeneral();
+    _hostApi.recognizeGeneral(bytes);
   }
 
   /// 通用文字识别(高精度含位置信息版)
-  void recognizeAccurate(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeAccurate(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeAccurate();
+    _hostApi.recognizeAccurate(bytes);
   }
 
   /// 通用文字识别（含生僻字版）
   void recognizeGeneralEnhanced(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+      RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeGeneralEnhanced();
+    _hostApi.recognizeGeneralEnhanced(bytes);
   }
 
   /// 网络图片文字识别
-  void recognizeWebimage(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeWebimage(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeGeneralEnhanced();
+    _hostApi.recognizeGeneralEnhanced(bytes);
   }
 
   void recognizeDrivingLicense(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+      RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeDrivingLicense();
+    _hostApi.recognizeDrivingLicense(bytes);
   }
 
   void recognizeVehicleLicense(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+      RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeVehicleLicense();
+    _hostApi.recognizeVehicleLicense(bytes);
   }
 
   void recognizeBusinessLicense(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+      RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeBusinessLicense();
+    _hostApi.recognizeBusinessLicense(bytes);
   }
 
-  void recognizeReceipt(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeReceipt(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeReceipt();
+    _hostApi.recognizeReceipt(bytes);
   }
 
-  void recognizeVatInvoice(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeVatInvoice(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeVatInvoice();
+    _hostApi.recognizeVatInvoice(bytes);
   }
 
-  void recognizeTaxireceipt(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeTaxireceipt(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeTaxireceipt();
+    _hostApi.recognizeTaxireceipt(bytes);
   }
 
-  void recognizeLicensePlate(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeLicensePlate(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeLicensePlate();
+    _hostApi.recognizeLicensePlate(bytes);
   }
 
-  void recognizeVincode(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeVincode(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeVincode();
+    _hostApi.recognizeVincode(bytes);
   }
 
-  void recognizeTrainticket(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeTrainticket(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeTrainticket();
+    _hostApi.recognizeTrainticket(bytes);
   }
 
-  void recognizeNumbers(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeNumbers(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeNumbers();
+    _hostApi.recognizeNumbers(bytes);
   }
 
-  void recognizeQrcode(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeQrcode(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeQrcode();
+    _hostApi.recognizeQrcode(bytes);
   }
 
-  void recoginzeTripTicket(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recoginzeTripTicket(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeTripTicket();
+    _hostApi.recoginzeTripTicket(bytes);
   }
 
   void recoginzeVihickleSellInvoice(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+      RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeVihickleSellInvoice();
+    _hostApi.recoginzeVihickleSellInvoice(bytes);
   }
 
   void recoginzeVihickleCertificate(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+      RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeVihickleCertificate();
+    _hostApi.recoginzeVihickleCertificate(bytes);
   }
 
-  void recoginzeExampleDoc(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recoginzeExampleDoc(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeExampleDoc();
+    _hostApi.recoginzeExampleDoc(bytes);
   }
 
-  void recoginzeWrittenText(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recoginzeWrittenText(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeWrittenText();
+    _hostApi.recoginzeWrittenText(bytes);
   }
 
-  void recognizePassport(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizePassport(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizePassport();
+    _hostApi.recognizePassport(bytes);
   }
 
-  void recoginzeHuKouPage(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recoginzeHuKouPage(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeHuKouPage();
+    _hostApi.recoginzeHuKouPage(bytes);
   }
 
   void recoginzeNormalMachineInvoice(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+      RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeNormalMachineInvoice();
+    _hostApi.recoginzeNormalMachineInvoice(bytes);
   }
 
-  void recognizeCustom(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recognizeCustom(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recognizeCustom();
+    _hostApi.recognizeCustom(bytes);
   }
 
-  void recoginzeweightnote(RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recoginzeweightnote(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeweightnote();
+    _hostApi.recoginzeweightnote(bytes);
   }
 
-  void recoginzemedicaldetail(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+  void recoginzemedicaldetail(RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzemedicaldetail();
+    _hostApi.recoginzemedicaldetail(bytes);
   }
 
   void recoginzeonlinetaxiitinerary(
-      RecognizeCallbackHandler recognizeCallbackHandler) {
+      RecognizeCallbackHandler recognizeCallbackHandler,
+      {Uint8List? bytes}) {
     _recognizeFlutterApi.callbackHandler = recognizeCallbackHandler;
-    _hostApi.recoginzeonlinetaxiitinerary();
+    _hostApi.recoginzeonlinetaxiitinerary(bytes);
   }
 }

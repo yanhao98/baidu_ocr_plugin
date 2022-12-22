@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:baidu_ocr_plugin/baidu_ocr_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 const ak = 'LrWkpucBSIKHErkFLWl71Pji';
@@ -54,6 +55,52 @@ class _HomeState extends State<Home> {
         child: ListView(
           padding: const EdgeInsets.all(16),
           children: [
+            ElevatedButton(
+              child: const Text('自定义图片-通用文字识别'),
+              onPressed: () {
+                if (!checkTokenStatus()) return;
+
+                showDialog(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: const Text('说明'),
+                      content: const SingleChildScrollView(
+                          child: Text(
+                              '通过自己的方式得到图片的二进制数据，然后通过bytes参数传入，这个示例中使用的是image_picker插件，通过ImagePicker.pickImage得到图片的二进制数据')),
+                      actions: [
+                        TextButton(
+                          onPressed: () async {
+                            Navigator.pop(context);
+
+                            final ImagePicker _picker = ImagePicker();
+                            final XFile? photo = await _picker.pickImage(
+                                source: ImageSource.camera,
+                                maxHeight: 1080,
+                                maxWidth: 1080);
+                            if (photo != null) {
+                              final Uint8List bytes = await photo.readAsBytes();
+                              debugPrint(
+                                  'await photo.length: ${await photo.length()}');
+                              debugPrint('bytes.length: ${bytes.length}');
+                              BaiduOcrPlugin.instance.recognizeGeneralBasic(
+                                  RecognizeCallbackHandler(
+                                      onStart: _handleStart,
+                                      onResult: handleJsonRes,
+                                      onError: handleOcrError),
+                                  bytes: bytes);
+                            }
+                          },
+                          child: const Text('确定'),
+                        )
+                      ],
+                    );
+                  },
+                );
+              },
+            ),
+            const Divider(),
             ElevatedButton(
               child: const Text('通用文字识别'),
               onPressed: () {

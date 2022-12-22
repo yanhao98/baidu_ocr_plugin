@@ -24,63 +24,63 @@ abstract class OcrHostApi {
   @async
   InitResponseData? initAccessToken();
 
-  void recognizeGeneralBasic();
+  void recognizeGeneralBasic(Uint8List? bytes);
 
-  void recognizeAccurateBasic();
+  void recognizeAccurateBasic(Uint8List? bytes);
 
-  void recognizeGeneral();
+  void recognizeGeneral(Uint8List? bytes);
 
-  void recognizeAccurate();
+  void recognizeAccurate(Uint8List? bytes);
 
-  void recognizeGeneralEnhanced();
+  void recognizeGeneralEnhanced(Uint8List? bytes);
 
-  void recognizeWebimage();
+  void recognizeWebimage(Uint8List? bytes);
 
-  void recognizeDrivingLicense();
+  void recognizeDrivingLicense(Uint8List? bytes);
 
-  void recognizeVehicleLicense();
+  void recognizeVehicleLicense(Uint8List? bytes);
 
-  void recognizeBusinessLicense();
+  void recognizeBusinessLicense(Uint8List? bytes);
 
-  void recognizeReceipt();
+  void recognizeReceipt(Uint8List? bytes);
 
-  void recognizeVatInvoice();
+  void recognizeVatInvoice(Uint8List? bytes);
 
-  void recognizeTaxireceipt();
+  void recognizeTaxireceipt(Uint8List? bytes);
 
-  void recognizeLicensePlate();
+  void recognizeLicensePlate(Uint8List? bytes);
 
-  void recognizeVincode();
+  void recognizeVincode(Uint8List? bytes);
 
-  void recognizeTrainticket();
+  void recognizeTrainticket(Uint8List? bytes);
 
-  void recognizeNumbers();
+  void recognizeNumbers(Uint8List? bytes);
 
-  void recognizeQrcode();
+  void recognizeQrcode(Uint8List? bytes);
 
-  void recoginzeTripTicket();
+  void recoginzeTripTicket(Uint8List? bytes);
 
-  void recoginzeVihickleSellInvoice();
+  void recoginzeVihickleSellInvoice(Uint8List? bytes);
 
-  void recoginzeVihickleCertificate();
+  void recoginzeVihickleCertificate(Uint8List? bytes);
 
-  void recoginzeExampleDoc();
+  void recoginzeExampleDoc(Uint8List? bytes);
 
-  void recoginzeWrittenText();
+  void recoginzeWrittenText(Uint8List? bytes);
 
-  void recognizePassport();
+  void recognizePassport(Uint8List? bytes);
 
-  void recoginzeHuKouPage();
+  void recoginzeHuKouPage(Uint8List? bytes);
 
-  void recoginzeNormalMachineInvoice();
+  void recoginzeNormalMachineInvoice(Uint8List? bytes);
 
-  void recognizeCustom();
+  void recognizeCustom(Uint8List? bytes);
 
-  void recoginzeweightnote();
+  void recoginzeweightnote(Uint8List? bytes);
 
-  void recoginzemedicaldetail();
+  void recoginzemedicaldetail(Uint8List? bytes);
 
-  void recoginzeonlinetaxiitinerary();
+  void recoginzeonlinetaxiitinerary(Uint8List? bytes);
 
   /// 身份证正面(本地质量控制)
   void recognizeIdCardFrontNative();
@@ -89,7 +89,7 @@ abstract class OcrHostApi {
   void recognizeIdCardBackNative();
 
   /// 银行卡识别
-  void recognizeBankCard();
+  void recognizeBankCard(Uint8List? bytes);
 
 /*
   /// 初始化本地质量控制模型

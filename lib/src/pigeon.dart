@@ -182,11 +182,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeGeneralBasic() async {
+  Future<void> recognizeGeneralBasic(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeGeneralBasic', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -203,11 +204,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeAccurateBasic() async {
+  Future<void> recognizeAccurateBasic(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeAccurateBasic', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -224,11 +226,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeGeneral() async {
+  Future<void> recognizeGeneral(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeGeneral', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -245,11 +248,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeAccurate() async {
+  Future<void> recognizeAccurate(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeAccurate', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -266,11 +270,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeGeneralEnhanced() async {
+  Future<void> recognizeGeneralEnhanced(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeGeneralEnhanced', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -287,11 +292,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeWebimage() async {
+  Future<void> recognizeWebimage(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeWebimage', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -308,11 +314,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeDrivingLicense() async {
+  Future<void> recognizeDrivingLicense(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeDrivingLicense', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -329,11 +336,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeVehicleLicense() async {
+  Future<void> recognizeVehicleLicense(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeVehicleLicense', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -350,11 +358,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeBusinessLicense() async {
+  Future<void> recognizeBusinessLicense(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeBusinessLicense', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -371,11 +380,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeReceipt() async {
+  Future<void> recognizeReceipt(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeReceipt', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -392,11 +402,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeVatInvoice() async {
+  Future<void> recognizeVatInvoice(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeVatInvoice', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -413,11 +424,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeTaxireceipt() async {
+  Future<void> recognizeTaxireceipt(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeTaxireceipt', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -434,11 +446,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeLicensePlate() async {
+  Future<void> recognizeLicensePlate(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeLicensePlate', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -455,11 +468,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeVincode() async {
+  Future<void> recognizeVincode(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeVincode', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -476,11 +490,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeTrainticket() async {
+  Future<void> recognizeTrainticket(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeTrainticket', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -497,11 +512,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeNumbers() async {
+  Future<void> recognizeNumbers(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeNumbers', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -518,11 +534,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeQrcode() async {
+  Future<void> recognizeQrcode(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeQrcode', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -539,11 +556,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeTripTicket() async {
+  Future<void> recoginzeTripTicket(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeTripTicket', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -560,11 +578,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeVihickleSellInvoice() async {
+  Future<void> recoginzeVihickleSellInvoice(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeVihickleSellInvoice', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -581,11 +600,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeVihickleCertificate() async {
+  Future<void> recoginzeVihickleCertificate(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeVihickleCertificate', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -602,11 +622,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeExampleDoc() async {
+  Future<void> recoginzeExampleDoc(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeExampleDoc', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -623,11 +644,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeWrittenText() async {
+  Future<void> recoginzeWrittenText(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeWrittenText', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -644,11 +666,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizePassport() async {
+  Future<void> recognizePassport(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizePassport', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -665,11 +688,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeHuKouPage() async {
+  Future<void> recoginzeHuKouPage(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeHuKouPage', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -686,11 +710,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeNormalMachineInvoice() async {
+  Future<void> recoginzeNormalMachineInvoice(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeNormalMachineInvoice', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -707,11 +732,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recognizeCustom() async {
+  Future<void> recognizeCustom(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeCustom', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -728,11 +754,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeweightnote() async {
+  Future<void> recoginzeweightnote(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeweightnote', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -749,11 +776,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzemedicaldetail() async {
+  Future<void> recoginzemedicaldetail(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzemedicaldetail', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -770,11 +798,12 @@ class OcrHostApi {
     }
   }
 
-  Future<void> recoginzeonlinetaxiitinerary() async {
+  Future<void> recoginzeonlinetaxiitinerary(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recoginzeonlinetaxiitinerary', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
@@ -836,11 +865,12 @@ class OcrHostApi {
   }
 
   /// 银行卡识别
-  Future<void> recognizeBankCard() async {
+  Future<void> recognizeBankCard(Uint8List? arg_bytes) async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
         'dev.flutter.pigeon.OcrHostApi.recognizeBankCard', codec,
         binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList = await channel.send(null) as List<Object?>?;
+    final List<Object?>? replyList =
+        await channel.send(<Object?>[arg_bytes]) as List<Object?>?;
     if (replyList == null) {
       throw PlatformException(
         code: 'channel-error',
