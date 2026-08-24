@@ -1,3 +1,5 @@
+
+
 # baidu_ocr_plugin
 
 [百度文字识别OCR](https://ai.baidu.com/ai-doc/index/OCR) 插件。
@@ -65,7 +67,7 @@ BaiduOcrPlugin.instance.recognizeGeneralBasic(
 
 ## 说明
 
-- 有帮助的话给个start。
+- 有帮助的话给个star。
 
 - 所有的api仅仅搬运了官方demo的调用，目前没有实现调用api的请求参数传递。（如果需要自己研究改造一下或发个Issues）
 - 最初我自己使用的api只有`身份证正面(本地质量控制)`、`身份证反面(本地质量控制)`。我对`Android`和`iOS`的知识也很有限。目前的工作与`Flutter`也无关。开源这个插件真心希望能帮到你。
